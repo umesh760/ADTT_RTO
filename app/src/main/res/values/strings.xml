@@ -1,0 +1,44 @@
+<resources>
+    <string name="app_name">Automated driving test</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="center_no">Enter Reference Id</string>
+    <string name="reciept_no">Receipt id Id</string>
+    <!--<string name="password">*****</string>-->
+    <string name="login">Submit</string>
+    <string name="restart_test">Restart Test</string>
+    <string name="login_title">Reference Id</string>
+    <string name="home_title">Applicant Details</string>
+    <string name="show_route">Show Route</string>
+    <string name="show_track">Show Track</string>
+    <string name="select_applic">Select Applicants</string>
+    <string name="tab_photo">Tab Photo</string>
+    <string name="test_report">Test Report</string>
+    <string name="result">Result</string>
+    <string name="retest_details">Retest User Details</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="enter_digit">Enter Reference Number</string>
+    <string name="enter_password">Enter Password</string>
+    <string name="next">Capture</string>
+    <string name="start_test">Start Test</string>
+    <string name="cancel">Cancel</string>
+    <string name="back_to_list">Back To Appoiment</string>
+
+    <string name="dist_select">कृपया सही जिला का चयन करें</string>
+    <string name="dist_name">Motor Cycle Without Gear Less Than 50CC</string>
+    <string name="dist_name1">Motor Cycle Without Gear</string>
+    <string name="dist_name2">Motor Cycle With Gear</string>
+    <string name="dist_name3">Light Motor Vehicle-Non Transport</string>
+    <string name="dist_name4">Light Motor Vehicle-Auto Rickshaw-Non Transport</string>
+    <string name="dist_name5">LMV Tractor Trailer</string>
+    <string name="dist_name6">IVC</string>
+
+    <string name="mid_screen">Appoiment Schedule List</string>
+
+    <string name="two_wheelar">Two wheeler</string>
+    <string name="four_wheelar">Four wheeler</string>
+
+    <string name="app_fresh">Fresh</string>
+    <string name="app_retest">Retest</string>
+
+</resources>

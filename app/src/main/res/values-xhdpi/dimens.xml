@@ -1,0 +1,5 @@
+<resources>
+
+    <dimen name="dash_icon_size">60dp</dimen>
+    <dimen name="dash_icon_heighg_size">60dp</dimen>
+</resources>
