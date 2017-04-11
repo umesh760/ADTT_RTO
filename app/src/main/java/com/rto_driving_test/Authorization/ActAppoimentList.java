@@ -118,10 +118,14 @@ public class ActAppoimentList extends BaseActivity {
             @Override
             public void onFailure(int requestCode, String errorCode, String message) {
 
+                Toast.makeText(getApplicationContext(),""+message,Toast.LENGTH_LONG).show();
+
             }
 
             @Override
             public void onNetworkFailure(int requestCode, String message) {
+
+                Toast.makeText(getApplicationContext(),""+message,Toast.LENGTH_LONG).show();
 
             }
         });
