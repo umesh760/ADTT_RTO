@@ -1,9 +1,11 @@
 package com.rto_driving_test.Adapters;
 
+import java.util.Objects;
+
 /**
  * Created by PankajRana on 03/10/2017.
  */
 
 public interface OnItemClickAdapter {
-    void  onclick(int position,int id,Object object);
+    public void click(int idofClickedItem, Object object, int position);
 }

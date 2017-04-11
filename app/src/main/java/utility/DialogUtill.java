@@ -44,7 +44,7 @@ public class DialogUtill {
             public void onClick(DialogInterface dialog, int position) {
                 String item = arrayAdapter.getItem(position);
                 if (null != onItemClickAdapter) {
-                    onItemClickAdapter.onclick(position, position, item);
+                    onItemClickAdapter.click(position, null, position);
 
                 }
 

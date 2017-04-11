@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.ArrayMap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,19 +21,28 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.rto_driving_test.Adapters.DateSelectAdapter;
+import com.rto_driving_test.Adapters.OnItemClickAdapter;
 import com.rto_driving_test.Models.AppoimentBean;
+import com.rto_driving_test.Models.AppointmentModel;
 import com.rto_driving_test.R;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import retrofit.BaseRequest;
+import retrofit.RequestReciever;
 import utility.BaseActivity;
+import utility.Config;
 import utility.ErrorLayout;
 
 public class ActAppoimentList extends BaseActivity {
@@ -43,6 +54,9 @@ public class ActAppoimentList extends BaseActivity {
 
     @BindView(R.id.et_search_applicant)
     EditText edTxtSearch;
+    DateSelectAdapter dateSelectAdapter;
+
+    ArrayList<AppointmentModel> appointmentModels=new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +68,7 @@ public class ActAppoimentList extends BaseActivity {
         ButterKnife.bind(this);
         setAppBar(getAppString(R.string.mid_screen), true);
         initViews();
+//        appointmentModels=new ArrayList<>();
         recyViewAppoi = (RecyclerView) findViewById(R.id.rc_view_select);
         RecyclerView.LayoutManager mLayoutManager2 = new LinearLayoutManager(activity);
         recyViewAppoi.setLayoutManager(mLayoutManager2);
@@ -62,6 +77,7 @@ public class ActAppoimentList extends BaseActivity {
 
 
         DummyData();
+        callApi();
 
         edTxtSearch.addTextChangedListener(new TextWatcher() {
             @Override
@@ -80,6 +96,41 @@ public class ActAppoimentList extends BaseActivity {
 //                adpt.filter(searchText);
             }
         });
+    }
+
+
+    BaseRequest baseRequest_list;
+    private void callApi() {
+
+        baseRequest_list=new BaseRequest(ActAppoimentList.this);
+        baseRequest_list.setBaseRequestListner(new RequestReciever() {
+            @Override
+            public void onSuccess(int requestCode, String Json, Object object) {
+
+                JSONArray data = (JSONArray) object;
+                appointmentModels = baseRequest_list.getDataList(data, AppointmentModel.class);
+                dateSelectAdapter.setList(appointmentModels);
+
+
+
+            }
+
+            @Override
+            public void onFailure(int requestCode, String errorCode, String message) {
+
+            }
+
+            @Override
+            public void onNetworkFailure(int requestCode, String message) {
+
+            }
+        });
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            baseRequest_list.callAPIGET(1,new ArrayMap<String, String>(),"Get_Applicant_list.svc/Get_Applicant/");
+        }
+
     }
 
     @Override
@@ -177,79 +228,56 @@ public void DummyData()
 }
     public void SetData()
     {
-        DateSelectAdapter  studentDetailsRow = new DateSelectAdapter(std10List, activity);
-        recyViewAppoi.setAdapter(studentDetailsRow);
-    }
+         dateSelectAdapter = new DateSelectAdapter(ActAppoimentList.this, appointmentModels, new OnItemClickAdapter() {
+             @Override
+             public void click(int idofClickedItem, Object object, int position) {
 
 
-    public class DateSelectAdapter extends RecyclerView.Adapter<DateSelectAdapter.MyViewHolder> {
-        private List<AppoimentBean> stdData10s;
-        private Activity mcontext;
-        int index;
-
-        public class MyViewHolder extends RecyclerView.ViewHolder {
-            public TextView tvName,tvId;
-            ImageView status;
-            RelativeLayout rlMain;
-
-            public MyViewHolder(View view) {
-                super(view);
-                tvName = (TextView) view.findViewById(R.id.tv_date);
-                tvId = (TextView) view.findViewById(R.id.tv_id);
-                status = (ImageView) view.findViewById(R.id.iv_date);
-                rlMain = (RelativeLayout) view.findViewById(R.id.rl_select_date);
-
-            }
-        }
-
-        public DateSelectAdapter(List<AppoimentBean> stdData10s, Activity context) {
-            this.stdData10s = stdData10s;
-            this.mcontext = context;
-
-        }
-
-        @Override
-        public DateSelectAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View itemView = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.custome_appoiment, parent, false);
-            return new DateSelectAdapter.MyViewHolder(itemView);
-        }
-        @Override
-        public void onBindViewHolder(final DateSelectAdapter.MyViewHolder holder, final int position) {
-            index = position;
-//            AppoimentBean stdData10 = stdData10s.get(position);
-             
-        holder.tvName.setText(stdData10s.get(position).getApName());
-        holder.tvId.setText("Id: "+stdData10s.get(position).getApAppNo());
-         if(stdData10s.get(position).getApPic().equals("")||stdData10s.get(position).getApPic()=="")
-         {
-//             tdData10s.get(position)
-             holder.status.setBackgroundResource(R.drawable.pic);
-         }
-            else
-         {
-             Picasso.with(mcontext).load(stdData10s.get(position).getApPic()).into(holder.status);
-         }
 
 
-            holder.rlMain.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String id=stdData10s.get(position).getApAppNo();
+                         //String id=appointmentModels.get(position).getReceipt_Number();
 
 //                    mcontext.startActivity(new Intent(mcontext, LoginActivity.class).putExtra("app_id",id));
 
-                    Intent in = new Intent(context,ActRetestAppliDetails.class);
-                    in.putExtra("diff","fresh");
-                    mcontext.startActivity(in);
-                }
-            });
-        }
-        @Override
-        public int getItemCount() {
-            return stdData10s.size();
-        }
+                         AppointmentModel appointmentModel=new AppointmentModel();
+                         appointmentModels.add(appointmentModel);
+
+
+                         String name=appointmentModels.get(position).getApplicant_Name();
+
+                 Config.APPLICANT_FIRST_NAME=appointmentModels.get(position).getApplicant_Name();
+                 Config.APPLICANT_LAST_NAME=appointmentModels.get(position).getApplicant_Last_Name();
+                 Config.APPOINTMENT_DATE=appointmentModels.get(position).getAppointment_Date();
+                 Config.DRIVER_NUMBER=appointmentModels.get(position).getDRIVER_NUMBER();
+                 Config.NUMBER=appointmentModels.get(position).getNumber();
+                 Config.LICENCE_NUMBER=appointmentModels.get(position).getLicence_Number();
+                 Config.DOB=appointmentModels.get(position).getDate_Of_Birth();
+                 Config.RECEIPT_NUMBER=appointmentModels.get(position).getReceipt_Number();
+                 Config.REF_NUMBER=appointmentModels.get(position).getReference_Number();
+                 Config.SOWODO=appointmentModels.get(position).getSo_Wo_Do();
+
+
+
+
+
+                        // Toast.makeText(getApplicationContext(),""+position,Toast.LENGTH_LONG).show();
+
+                         Intent in = new Intent(getApplicationContext(),ActRetestAppliDetails.class);
+                         in.putExtra("diff","fresh");
+                         in.putExtra("fresh","fresh");
+                         in.putExtra("name",name);
+                         startActivity(in);
+
+
+             }
+         });
+
+
+                 recyViewAppoi.setAdapter(dateSelectAdapter);
     }
+
+
+
 
     Dialog logoutDlg = null;
 

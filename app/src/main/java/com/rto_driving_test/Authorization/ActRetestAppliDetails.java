@@ -9,16 +9,20 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.rto_driving_test.Functions;
 import com.rto_driving_test.R;
 
 import java.io.File;
+import java.util.StringTokenizer;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import utility.Config;
 import utility.ErrorLayout;
 import utility.MyImage;
 
@@ -28,18 +32,45 @@ public class ActRetestAppliDetails extends MediaPickerActivity {
 
     @BindView(R.id.btn_start_test)
     Button btSartTest;
-
     @BindView(R.id.btn_cancel_retest)
     Button btCancel;
-
     @BindView(R.id.view_diff)
     View viewDiff;
-
     @BindView(R.id.iv_date)
     ImageView img;
 
 
-String sDiff="";
+    @BindView(R.id.tv_name)
+    TextView nametxt;
+    @BindView(R.id.tv_id)
+    TextView idtxt;
+    @BindView(R.id.tv_ap_no)
+    TextView ap_no_txt;
+    @BindView(R.id.tv_nm)
+    TextView nm_tv_txt;
+    @BindView(R.id.tv_fath_nm)
+    TextView fath_nm_txt;
+    @BindView(R.id.tv_dob)
+    TextView tv_dob_txt;
+    @BindView(R.id.tv_dl_no)
+    TextView tv_dl_txt;
+    @BindView(R.id.tv_date)
+    TextView tv_date_txt;
+    @BindView(R.id.tv_time)
+    TextView tv_time_txt;
+    @BindView(R.id.tv_vehicle_class)
+    TextView vehical_txt;
+
+
+
+
+
+
+
+
+
+    String sDiff="";
+    String nameApp="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +82,11 @@ String sDiff="";
         activity = this;
         checkClick=0;
         sDiff=getIntent().getStringExtra("diff");
+        nameApp=getIntent().getStringExtra("name");
+        //Toast.makeText(getApplicationContext(),""+nameApp,Toast.LENGTH_LONG).show();
+
+        setTextValue();
+
         if(sDiff.equals("fresh"))
         {
             btSartTest.setText(getResources().getString(R.string.next));
@@ -63,6 +99,45 @@ String sDiff="";
             btCancel.setVisibility(View.GONE);
             viewDiff.setVisibility(View.GONE);
         }
+    }
+
+    private void setTextValue() {
+
+
+        nametxt.setText(Config.APPLICANT_FIRST_NAME+"\t"+Config.APPLICANT_LAST_NAME);
+        idtxt.setText(Config.REF_NUMBER);
+        ap_no_txt.setText(Config.RECEIPT_NUMBER);
+        nm_tv_txt.setText(Config.APPLICANT_FIRST_NAME+"\t"+Config.APPLICANT_LAST_NAME);
+        fath_nm_txt.setText(Config.SOWODO);
+        tv_dob_txt.setText(Config.DOB);
+        tv_dl_txt.setText(Config.LICENCE_NUMBER);
+        tv_dob_txt.setText(Config.DOB);
+      //  tv_date_txt.setText(Config.APPOINTMENT_DATE);
+
+
+        String dnt=Config.APPOINTMENT_DATE;
+
+        if(Config.APPOINTMENT_DATE!=null) {
+            String items[] = dnt.split(" ");
+            tv_date_txt.setText(items[0]);
+            if(items[1]!=null && items[2]!=null) {
+                tv_time_txt.setText(items[1] + items[2]);
+            }
+        }
+        else {
+
+            tv_date_txt.setText("Not Updated");
+            tv_time_txt.setText("Not Updated");
+
+        }
+        //StringTokenizer stringTokenizer = new StringTokenizer(Config.APPOINTMENT_DATE,"");
+
+
+
+
+
+
+
     }
 
     @Override

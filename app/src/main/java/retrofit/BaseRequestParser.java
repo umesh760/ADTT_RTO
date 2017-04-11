@@ -45,7 +45,7 @@ public abstract class BaseRequestParser {
         }
 
         try {
-            return mRespJSONObject.optJSONArray("result");////data,result
+            return mRespJSONObject.optJSONArray("data");////data,result
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -60,7 +60,7 @@ public abstract class BaseRequestParser {
         }
 
         try {
-            return mRespJSONObject.optJSONObject("result");//data,result
+            return mRespJSONObject.optJSONObject("data");//data,result
         } catch (Exception e) {
             e.printStackTrace();
             return null;
