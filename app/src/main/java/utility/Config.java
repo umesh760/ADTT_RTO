@@ -34,4 +34,5 @@ public class Config {
     public static String DOB="";
     public static String LICENCE_NUMBER="";
     public static String PHOTO_STATUS="";
+    public static String IMAGE_PATH="";
 }

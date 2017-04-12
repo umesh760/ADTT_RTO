@@ -28,6 +28,8 @@ public class ActTestReport extends BaseActivity {
     Button btReTest;
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,8 +69,17 @@ public class ActTestReport extends BaseActivity {
                 startActivity(in1);
                 break;
 
+                //callApi();
+
 
         }
+    }
+
+    private void callApi() {
+
+
+
+
     }
 
 }

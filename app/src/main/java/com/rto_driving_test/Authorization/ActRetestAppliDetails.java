@@ -58,8 +58,8 @@ public class ActRetestAppliDetails extends MediaPickerActivity {
     TextView tv_date_txt;
     @BindView(R.id.tv_time)
     TextView tv_time_txt;
-    @BindView(R.id.tv_vehicle_class)
-    TextView vehical_txt;
+    /*@BindView(R.id.tv_vehicle_class)
+    TextView vehical_txt;*/
 
 
 
@@ -167,7 +167,7 @@ public class ActRetestAppliDetails extends MediaPickerActivity {
                     }
                     else
                     {
-                        Intent in = new Intent(context,ActTestReport.class);
+                        Intent in = new Intent(context,VehicalSelectionActivity.class);
                         startActivity(in);
                         finish();
 
@@ -176,7 +176,7 @@ public class ActRetestAppliDetails extends MediaPickerActivity {
                 }
                 else
                 {
-                    Intent in = new Intent(context,ActTestReport.class);
+                    Intent in = new Intent(context,VehicalSelectionActivity.class);/*ActTestReport*/
                     startActivity(in);
                     finish();
                 }
@@ -200,6 +200,8 @@ int checkClick=0;
 
 
             MyImage.displayImage(this,path,img);
+            Config.IMAGE_PATH=path;
+
 
         }
     }

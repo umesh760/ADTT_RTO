@@ -38,6 +38,7 @@
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
                         android:padding="4dp"
+
                         >
 
                         <TextView
@@ -47,6 +48,7 @@
                             android:layout_toRightOf="@+id/rl_date"
                             android:gravity="center|left"
                             android:text="Rakesh Verma"
+                            android:layout_marginTop="10dp"
                             android:paddingLeft="10dp"
                             android:textSize="14dp" />
 
@@ -59,16 +61,17 @@
                             android:gravity="center|left"
                             android:text="ID:24020202023"
                             android:paddingLeft="10dp"
+
                             android:textSize="14dp" />
                         <RelativeLayout
                             android:id="@+id/rl_date"
-                            android:layout_width="70dp"
+                            android:layout_width="100dp"
                             android:layout_height="fill_parent">
 
                             <ImageView
                                 android:id="@+id/iv_date"
-                                android:layout_width="45dp"
-                                android:layout_height="45dp"
+                                android:layout_width="150dp"
+                                android:layout_height="100dp"
                                 android:layout_centerInParent="true"
                                 android:src="@drawable/pic" />
                         </RelativeLayout>
@@ -313,7 +316,7 @@
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
 
-                <android.support.v7.widget.CardView
+               <!-- <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/center_info_left_righ_margin"
@@ -345,7 +348,7 @@
                             android:textSize="14dp" />
 
                     </LinearLayout>
-                </android.support.v7.widget.CardView>
+                </android.support.v7.widget.CardView>-->
 
                 <RelativeLayout
                     android:layout_width="fill_parent"
