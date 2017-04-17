@@ -92,11 +92,14 @@ public class ActAppoimentList extends BaseActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-//                String searchText = edTxtSearch.getText().toString().trim();
-//                adpt.filter(searchText);
+                String searchText = edTxtSearch.getText().toString().trim();
+                dateSelectAdapter.filter(searchText);
+
             }
         });
     }
+
+
 
 
     BaseRequest baseRequest_list;
@@ -251,6 +254,7 @@ public void DummyData()
 
                  Config.APPLICANT_FIRST_NAME=appointmentModels.get(position).getApplicant_Name();
                  Config.APPLICANT_LAST_NAME=appointmentModels.get(position).getApplicant_Last_Name();
+                 Config.RTO_CODE=appointmentModels.get(position).getRTO_CODE();
                  Config.APPOINTMENT_DATE=appointmentModels.get(position).getAppointment_Date();
                  Config.DRIVER_NUMBER=appointmentModels.get(position).getDRIVER_NUMBER();
                  Config.NUMBER=appointmentModels.get(position).getNumber();

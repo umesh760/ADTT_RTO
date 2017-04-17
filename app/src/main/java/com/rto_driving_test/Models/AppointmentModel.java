@@ -15,6 +15,7 @@ public class AppointmentModel implements java.io.Serializable {
     private String Applicant_Name;
     private String Licence_Number;
     private String Receipt_Number;
+    private String RTO_CODE;
 
     public String getSo_Wo_Do() {
         return this.So_Wo_Do;
@@ -76,6 +77,11 @@ public class AppointmentModel implements java.io.Serializable {
         return this.Number;
     }
 
+    public String getRTO_CODE() {
+        return this.RTO_CODE;
+    }
+
+
     public void setNumber(int Number) {
         this.Number = Number;
     }
@@ -118,5 +124,9 @@ public class AppointmentModel implements java.io.Serializable {
 
     public void setReceipt_Number(String Receipt_Number) {
         this.Receipt_Number = Receipt_Number;
+    }
+
+    public void setRTO_CODE(String RTO_CODE) {
+        this.RTO_CODE= RTO_CODE;
     }
 }

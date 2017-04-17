@@ -15,11 +15,13 @@ import com.rto_driving_test.Authorization.ActAppoimentList;
 import com.rto_driving_test.Authorization.ActRetestAppliDetails;
 import com.rto_driving_test.Models.AppoimentBean;
 import com.rto_driving_test.Models.AppointmentModel;
+import com.rto_driving_test.Models.MainCat;
 import com.rto_driving_test.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by cnvg on 11/4/17.
@@ -28,6 +30,7 @@ import java.util.List;
 public class DateSelectAdapter extends RecyclerView.Adapter<DateSelectAdapter.MyViewHolder> {
 
     private List<AppointmentModel> appointmentModels;
+    private ArrayList<AppointmentModel> arSearchItem;
 
     OnItemClickAdapter onItemClickAdapter;
 
@@ -54,6 +57,8 @@ public class DateSelectAdapter extends RecyclerView.Adapter<DateSelectAdapter.My
 
     public DateSelectAdapter(ActAppoimentList context, List<AppointmentModel> appointmentModels_, OnItemClickAdapter onItemClickAdapter_) {
         this.appointmentModels = appointmentModels_;
+        this.arSearchItem = new ArrayList<AppointmentModel>();
+        this.arSearchItem.addAll(appointmentModels);
         this.mcontext = context;
         this.onItemClickAdapter=onItemClickAdapter_;
 
@@ -118,6 +123,23 @@ public class DateSelectAdapter extends RecyclerView.Adapter<DateSelectAdapter.My
            }
        });
 
+    }
+
+    public void filter(String charText) {
+        charText = charText.toLowerCase(Locale.getDefault());
+        appointmentModels.clear();
+        if (charText.length() == 0) {
+            appointmentModels.addAll(arSearchItem);
+        } else {
+            for (AppointmentModel wp : arSearchItem) {
+                if (wp.getApplicant_Name().toLowerCase(Locale.getDefault()).contains(charText))
+//                if (wp.getCatName().startsWith(charText))
+                {
+                    appointmentModels.add(wp);
+                }
+            }
+        }
+        notifyDataSetChanged();
     }
     @Override
     public int getItemCount() {

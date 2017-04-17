@@ -24,6 +24,7 @@ public class Config {
 
     public static String APPLICANT_LAST_NAME="";
     public static String APPLICANT_FIRST_NAME="";
+    public static String RTO_CODE="";
     public static int DRIVER_NUMBER;
     public static String REF_NUMBER="";
     public static String RECEIPT_NUMBER="";
@@ -35,4 +36,5 @@ public class Config {
     public static String LICENCE_NUMBER="";
     public static String PHOTO_STATUS="";
     public static String IMAGE_PATH="";
+
 }
