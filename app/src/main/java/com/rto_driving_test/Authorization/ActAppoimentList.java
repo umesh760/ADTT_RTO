@@ -52,6 +52,8 @@ public class ActAppoimentList extends BaseActivity {
     Activity activity;
     ArrayList<AppoimentBean> std10List = new ArrayList<AppoimentBean>();
 
+    private List<AppointmentModel> list = new ArrayList<AppointmentModel>();
+
     @BindView(R.id.et_search_applicant)
     EditText edTxtSearch;
     DateSelectAdapter dateSelectAdapter;
@@ -78,8 +80,10 @@ public class ActAppoimentList extends BaseActivity {
 
         DummyData();
         callApi();
+        addTextListener();
 
-        edTxtSearch.addTextChangedListener(new TextWatcher() {
+
+       /* edTxtSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -96,10 +100,96 @@ public class ActAppoimentList extends BaseActivity {
                 dateSelectAdapter.filter(searchText);
 
             }
-        });
+        });*/
     }
 
+    private void addTextListener() {
 
+
+        edTxtSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence query, int start, int before, int count) {
+
+
+                query = query.toString().toLowerCase();
+
+                final List<AppointmentModel> filteredList = new ArrayList<>();
+
+                for (int i = 0; i < appointmentModels.size(); i++) {
+                    try {
+                        final String text = appointmentModels.get(i).getApplicant_Name().toString().toLowerCase();
+                        if (text.contains(query)) {
+                            filteredList.add(appointmentModels.get(i));
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+
+                recyViewAppoi.setLayoutManager(new LinearLayoutManager(ActAppoimentList.this));
+                dateSelectAdapter=new DateSelectAdapter(ActAppoimentList.this, filteredList, new OnItemClickAdapter() {
+                    @Override
+                    public void click(int idofClickedItem, Object object, int position) {
+
+
+                        //String id=appointmentModels.get(position).getReceipt_Number();
+
+//                    mcontext.startActivity(new Intent(mcontext, LoginActivity.class).putExtra("app_id",id));
+
+                        AppointmentModel appointmentModel=new AppointmentModel();
+                        appointmentModels.add(appointmentModel);
+
+
+                        String name=appointmentModels.get(position).getApplicant_Name();
+
+                        Config.APPLICANT_FIRST_NAME=appointmentModels.get(position).getApplicant_Name();
+                        Config.APPLICANT_LAST_NAME=appointmentModels.get(position).getApplicant_Last_Name();
+                        Config.RTO_CODE=appointmentModels.get(position).getRTO_CODE();
+                        Config.APPOINTMENT_DATE=appointmentModels.get(position).getAppointment_Date();
+                        Config.DRIVER_NUMBER=appointmentModels.get(position).getDRIVER_NUMBER();
+                        Config.NUMBER=appointmentModels.get(position).getNumber();
+                        Config.LICENCE_NUMBER=appointmentModels.get(position).getLicence_Number();
+                        Config.DOB=appointmentModels.get(position).getDate_Of_Birth();
+                        Config.RECEIPT_NUMBER=appointmentModels.get(position).getReceipt_Number();
+                        Config.REF_NUMBER=appointmentModels.get(position).getReference_Number();
+                        Config.SOWODO=appointmentModels.get(position).getSo_Wo_Do();
+
+
+
+
+
+                        // Toast.makeText(getApplicationContext(),""+position,Toast.LENGTH_LONG).show();
+
+                        Intent in = new Intent(getApplicationContext(),ActRetestAppliDetails.class);
+                        in.putExtra("diff","fresh");
+                        in.putExtra("fresh","fresh");
+                        in.putExtra("name",name);
+                        startActivity(in);
+
+
+
+                    }
+                });
+
+                recyViewAppoi.setAdapter(dateSelectAdapter);
+                dateSelectAdapter.notifyDataSetChanged();
+
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+    }
 
 
     BaseRequest baseRequest_list;
