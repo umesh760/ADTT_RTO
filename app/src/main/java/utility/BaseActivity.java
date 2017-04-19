@@ -36,7 +36,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         sActivities.add(this);
         Fabric.with(this, new Crashlytics());
 //        logUser();
-        Mint.initAndStartSession(this.getApplication(), "622caf45");
+        //Mint.initAndStartSession(this.getApplication(), "622caf45");
+        Mint.initAndStartSession(this.getApplication(), "4643ed9b");
     }
 //    private void logUser() {
 //        // TODO: Use the current user's information

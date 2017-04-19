@@ -82,7 +82,7 @@ public class ActResult extends BaseActivity {
 
 
 
-            Toast.makeText(getApplicationContext(),""+jsonObject,Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplicationContext(),""+jsonObject,Toast.LENGTH_LONG).show();
             System.out.println("$$$$$$$$$$$$$"+jsonObject);
 
         } catch (JSONException e) {

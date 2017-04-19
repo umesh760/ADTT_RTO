@@ -107,7 +107,7 @@
                     android:layout_height="@dimen/button_height"
                     android:background="@null"
                     android:hint="@string/reciept_no"
-                    android:inputType="number"
+
                     android:paddingLeft="10dp"
                     android:maxLength="20"
                     android:text=""

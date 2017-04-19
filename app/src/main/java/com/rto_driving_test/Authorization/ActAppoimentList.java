@@ -170,6 +170,7 @@ public class ActAppoimentList extends BaseActivity {
                         in.putExtra("diff","fresh");
                         in.putExtra("fresh","fresh");
                         in.putExtra("name",name);
+                        in.putExtra("activityname","FRESH");
                         startActivity(in);
 
 

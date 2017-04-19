@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.rto_driving_test.Functions;
 import com.rto_driving_test.R;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.util.StringTokenizer;
@@ -76,13 +77,27 @@ public class ActRetestAppliDetails extends MediaPickerActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_retest_appli_details);
         ButterKnife.bind(this);
-        setAppBar(getAppString(R.string.retest_details), true);
+        sDiff=getIntent().getStringExtra("diff");
+        nameApp=getIntent().getStringExtra("name");
+        if(sDiff.equals("fresh"))
+        {
+
+            setAppBar("FRESH", true);
+        }
+        else {
+            setAppBar("RETEST", true);
+        }
+
+
+//        setAppBar(getAppString(R.string.retest_details), true);
+//        setAppBar(getAppString(R.string.retest_details), true);
+
+        //setAppBar(name,true);
         initViews();
         context = this;
         activity = this;
         checkClick=0;
-        sDiff=getIntent().getStringExtra("diff");
-        nameApp=getIntent().getStringExtra("name");
+
         //Toast.makeText(getApplicationContext(),""+nameApp,Toast.LENGTH_LONG).show();
 
         setTextValue();
@@ -95,6 +110,7 @@ public class ActRetestAppliDetails extends MediaPickerActivity {
         }
         else
         {
+          img.setImageBitmap(Config.APPLICANT_PIC_BASE64);
             btSartTest.setText(getResources().getString(R.string.start_test));
             btCancel.setVisibility(View.GONE);
             viewDiff.setVisibility(View.GONE);
@@ -117,20 +133,20 @@ public class ActRetestAppliDetails extends MediaPickerActivity {
 
         String dnt=Config.APPOINTMENT_DATE;
 
-        if(Config.APPOINTMENT_DATE!=null) {
+       /* if(Config.APPOINTMENT_DATE!=null || Config.APPOINTMENT_DATE !="") {
             String items[] = dnt.split(" ");
             tv_date_txt.setText(items[0]);
             if(items[1]!=null && items[2]!=null) {
                 tv_time_txt.setText(items[1] + items[2]);
             }
         }
-        else {
+        else if(Config.APPOINTMENT_DATE=="" || Config.APPOINTMENT_DATE==null){
 
             tv_date_txt.setText("Not Updated");
             tv_time_txt.setText("Not Updated");
 
-        }
-        //StringTokenizer stringTokenizer = new StringTokenizer(Config.APPOINTMENT_DATE,"");
+        }*/
+
 
 
 

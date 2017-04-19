@@ -1,5 +1,7 @@
 package utility;
 
+import android.graphics.Bitmap;
+
 /**
  * Created by cnvg on 11/4/17.
  */
@@ -36,5 +38,8 @@ public class Config {
     public static String LICENCE_NUMBER="";
     public static String PHOTO_STATUS="";
     public static String IMAGE_PATH="";
+    public static Bitmap APPLICANT_PIC_BASE64;
+
+    public static String USERDETAILS;
 
 }
