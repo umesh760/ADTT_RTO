@@ -5,20 +5,27 @@ import java.util.concurrent.TimeUnit;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import utility.Config;
 
 
 public class ApiClient {
 
-    public static final String BASE_URL = "http://182.72.228.66/ADTT_SEVICE/";
+
+
+    public static String BASE_URL=null;
+    /* = "http://"+ Config.IP_ADDRESS+"/ADTT_SEVICE/";*/
+
+    /*public static String BASE_URL = "http://182.72.228.66/ADTT_SEVICE/";
+    public static String BASE_URL = "http://"+ Config.IP_ADDRESS+"/ADTT_SEVICE/";*/
     private static Retrofit retrofit = null;
     public static Retrofit getClient() {
-        if (retrofit == null) {
+      //  if (retrofit == null) {
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .client(getRequestHeader())
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
-        }
+     //   }
         return retrofit;
     }
 

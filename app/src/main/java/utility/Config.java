@@ -31,7 +31,7 @@ public class Config {
     public static String REF_NUMBER="";
     public static String RECEIPT_NUMBER="";
     public static String SOWODO="";
-    public static String TESTTYPE="";
+    public static String TESTTYPE="F";
     public static String APPOINTMENT_DATE="";
     public static int NUMBER;
     public static String DOB="";
@@ -41,5 +41,6 @@ public class Config {
     public static Bitmap APPLICANT_PIC_BASE64;
 
     public static String USERDETAILS;
+    public String IP_ADDRESS="182.72.228.66";
 
 }

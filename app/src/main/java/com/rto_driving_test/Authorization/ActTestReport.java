@@ -5,9 +5,13 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.text.TextUtils;
+import android.util.ArrayMap;
 import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
@@ -22,6 +26,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,6 +43,7 @@ import utility.ErrorLayout;
 import utility.ResizeImage;
 
 import static android.R.attr.path;
+import static android.R.attr.start;
 
 public class ActTestReport extends BaseActivity {
 
@@ -51,9 +57,18 @@ public class ActTestReport extends BaseActivity {
     Button btSubmit;
     @BindView(R.id.bt_restart)
     Button btReTest;
+    @BindView(R.id.bt_start)
+    Button btStartTest;
+    @BindView(R.id.bt_pending)
+    Button btnPending;
+    @BindView(R.id.tv_start)
+    TextView timer;
+
     MultipartBody.Part body;
 
 String imagepath="";
+
+    String type_vehical;
 
 
     @Override
@@ -73,7 +88,11 @@ String imagepath="";
 //                finish();
 //            }
 //        });
+
+
+        type_vehical=getIntent().getStringExtra("vehical");
         initViews();
+        btReTest.setVisibility(View.GONE);
 
 
         String s=Config.IMAGE_PATH;
@@ -142,10 +161,29 @@ String imagepath="";
         errorLayout = new ErrorLayout(findViewById(R.id.error_rl));
     }
 
-    @OnClick({R.id.bt_submit,R.id.bt_restart})//R.id.login_btn
+    @OnClick({R.id.bt_submit,R.id.bt_restart,R.id.bt_start,R.id.bt_pending})//R.id.login_btn
     public void onClick(View view) {
         switch (view.getId()) {
+
+            case R.id.bt_start:
+                btStartTest.setVisibility(View.GONE);
+                btReTest.setVisibility(View.VISIBLE);
+                conddowntimer();
+                if(type_vehical.equalsIgnoreCase("twowheeler"))
+                {
+                    callApiforTW();
+                }
+                else if(type_vehical.equalsIgnoreCase("fourwheeler"))
+                {
+                    callApiforFW();
+
+                }
+
+                break;
+
+
             case R.id.bt_restart:
+
                 Intent in = new Intent(context,ActDiffApplicants.class);
                 startActivity(in);
                 finishAllActivities();
@@ -161,11 +199,149 @@ String imagepath="";
 
                 break;
 
+               case R.id.bt_pending:
+                Intent intent =new Intent(getApplicationContext(),PendingTest.class);
+                startActivity(intent);
+
+                break;
+
 
 
 
 
         }
+    }
+BaseRequest baseRequestFW;
+    private void callApiforFW() {
+
+
+        baseRequestFW=new BaseRequest(this);
+        baseRequestFW.setBaseRequestListner(new RequestReciever() {
+            @Override
+            public void onSuccess(int requestCode, String Json, Object object) {
+
+
+
+                if(!TextUtils.isEmpty(object.toString()))
+                {
+
+                    JSONArray data=(JSONArray)object;
+
+                    try {
+                        JSONObject jsonObject=data.getJSONObject(0);
+                        String message=jsonObject.optString("Message");
+
+                        Toast.makeText(getApplicationContext(),""+message,Toast.LENGTH_LONG).show();
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+
+
+            }
+
+            @Override
+            public void onFailure(int requestCode, String errorCode, String message) {
+
+                Toast.makeText(getApplicationContext(),""+message,Toast.LENGTH_LONG).show();
+
+            }
+
+            @Override
+            public void onNetworkFailure(int requestCode, String message) {
+
+                Toast.makeText(getApplicationContext(),""+message,Toast.LENGTH_LONG).show();
+
+            }
+        });
+
+        JsonObject jsonObject=Functions.getClient().getJsonMapObject("DriverNo", String.valueOf(Config.DRIVER_NUMBER),
+                "LL_No",Config.LICENCE_NUMBER,"Receipt_No",Config.RECEIPT_NUMBER,"Reference_no",Config.REF_NUMBER,
+                "Test_type",Config.TESTTYPE,"gRTOCODE",Config.RTO_CODE, "DashBoard_Cam","192.168.10.10");
+        baseRequestFW.callAPIPost(1,jsonObject,"Get_Applicant_list.svc/FW_Test/Get_Fw_request");
+
+    }
+
+
+    BaseRequest baseRequestTW;
+
+    private void callApiforTW() {
+
+        baseRequestTW=new BaseRequest(this);
+
+        baseRequestTW.setBaseRequestListner(new RequestReciever() {
+            @Override
+            public void onSuccess(int requestCode, String Json, Object object) {
+
+                if(!TextUtils.isEmpty(object.toString()))
+                {
+
+                    JSONArray data=(JSONArray)object;
+
+                    try {
+                        JSONObject jsonObject=data.getJSONObject(0);
+                        String message=jsonObject.optString("Message");
+
+                        Toast.makeText(getApplicationContext(),""+message,Toast.LENGTH_LONG).show();
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+
+
+            }
+
+            @Override
+            public void onFailure(int requestCode, String errorCode, String message) {
+
+                Toast.makeText(getApplicationContext(),""+message,Toast.LENGTH_LONG).show();
+
+            }
+
+            @Override
+            public void onNetworkFailure(int requestCode, String message) {
+
+                Toast.makeText(getApplicationContext(),""+message,Toast.LENGTH_LONG).show();
+
+            }
+        });
+
+       // String url="Get_Applicant_list.svc/TW_Test/"+Config.DRIVER_NUMBER +"/"+ Config.RTO_CODE+"/"+Config.RECEIPT_NUMBER+"/"+Config.LICENCE_NUMBER+"/"+Config.REF_NUMBER+"/"+Config.TESTTYPE;
+
+
+        JsonObject jsonObject=Functions.getClient().getJsonMapObject("DriverNo", String.valueOf(Config.DRIVER_NUMBER),
+                "LL_No",Config.LICENCE_NUMBER,"Receipt_No",Config.RECEIPT_NUMBER,"Reference_no",Config.REF_NUMBER,
+                "Test_type",Config.TESTTYPE,"gRTOCODE",Config.RTO_CODE);
+        baseRequestTW.callAPIPost(1,jsonObject,"Get_Applicant_list.svc/TW_Test/Get_Tw_request");
+
+    }
+
+    private void conddowntimer() {
+
+        new CountDownTimer(120000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+
+                int seconds= (int) TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished);
+                int minutes = (int) TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished);
+
+
+               timer.setText("0"+minutes+":"+seconds);
+               /* timer.setText(""+String.format("%d min, %d sec",TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished),
+                        TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished)));*/
+            }
+
+            public void onFinish() {
+                timer.setText("00:00");
+            }
+        }.start();
+
     }
 
     BaseRequest baseRequest;
@@ -233,6 +409,8 @@ baseRequest.callAPIPost(1,jsonObject,"Get_Applicant_list.svc/Get_SaveApplicantBi
 
 
     }
+
+
 
 }
 

@@ -82,10 +82,10 @@ public class ActRetestAppliDetails extends MediaPickerActivity {
         if(sDiff.equals("fresh"))
         {
 
-            setAppBar("FRESH", true);
+            setAppBar("CANDIDATE DETAIL (FRESH)", true);
         }
         else {
-            setAppBar("RETEST", true);
+            setAppBar("CANDIDATE DETAIL (RETEST)", true);
         }
 
 

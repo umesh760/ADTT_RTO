@@ -4,17 +4,24 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.rto_driving_test.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnLongClick;
+import retrofit.ApiClient;
 import utility.BaseActivity;
 import utility.ErrorLayout;
 
@@ -26,12 +33,24 @@ public class ActDiffApplicants extends BaseActivity {
     Button btfresh;
     @BindView(R.id.bt_retest)
     Button btretest;
+
+    @BindView(R.id.rl_longclick)
+    RelativeLayout rl_click;
+
+    Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_diff_applicants);
         ButterKnife.bind(this);
-        setAppBar(getAppString(R.string.select_applic), true);
+        toolbar=(Toolbar)findViewById(R.id.toolbar_diff);
+        toolbar.setTitle("AUTOMATED DRIVING TEST ");
+        toolbar.setTitleTextColor(Color.WHITE);
+        setSupportActionBar(toolbar);
+
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+       // setAppBar(getAppString(R.string.select_applic), true);
         initViews();
         context = this;
         activity = this;
@@ -44,32 +63,82 @@ public class ActDiffApplicants extends BaseActivity {
 //        callAPI();
     }
 
+   /* @OnLongClick(R.id.rl_longclick)
+    public void rl_longclick()
+    {
+        Toast.makeText(getApplicationContext(),"click long press",Toast.LENGTH_LONG).show();
+
+        startActivity(new Intent(getApplicationContext(),ChangeIPActivity.class));
+
+        return ;
+
+
+    }*/
+
     private ErrorLayout errorLayout;
 
     private void initViews() {
         errorLayout = new ErrorLayout(findViewById(R.id.error_rl));
+       /* rl_click.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+
+                Toast.makeText(getApplicationContext(),"click long press",Toast.LENGTH_LONG).show();
+
+                startActivity(new Intent(getApplicationContext(),ChangeIPActivity.class));
+                return true;
+            }
+        });*/
     }
 
-    @OnClick({R.id.bt_fresh,R.id.bt_retest})
+    @OnClick({R.id.bt_fresh,R.id.bt_retest,R.id.rl_longclick})
     public void onClick(View view) {
         switch (view.getId()) {
 
             case R.id.bt_fresh:
-                Intent in = new Intent(context,ActAppoimentList.class);
+
+                if(validation()) {
+                    Intent in = new Intent(context, ActAppoimentList.class);
                     startActivity(in);
+                }
                 break;
             case R.id.bt_retest:
+                if(validation()) {
                 Intent in1 = new Intent(context,ActReTestLogin.class);
              in1.putExtra("app_id","1");
                 startActivity(in1);
+                }
+                break;
+
+            case R.id.rl_longclick:
+                Toast.makeText(getApplicationContext(),"click long press",Toast.LENGTH_LONG).show();
+
+                startActivity(new Intent(getApplicationContext(),ChangeIPActivity.class));
                 break;
 
 
+
+
+
+
+
+        }
+
+    }
+
+    private boolean validation() {
+
+        if(TextUtils.isEmpty(ApiClient.BASE_URL)) {
+            Toast.makeText(getApplicationContext(),"Please Set IP Address",Toast.LENGTH_LONG).show();
+            return false;
+        }
+        else {
+            return true;
         }
     }
 
 
-        @Override
+    @Override
     public void onBackPressed() {
             try {
                 logout("Wish to exit ?", 2);

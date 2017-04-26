@@ -39,43 +39,45 @@
         </activity>
         <activity
             android:name=".Authorization.LoginActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Authorization.ActRetestAppliDetails"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Authorization.ActReTestLogin"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Authorization.ActDiffApplicants"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Authorization.ActAppoimentList"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Authorization.ActShowTrack"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Authorization.ActTestReport"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Home.ActNewDashboard"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Authorization.ActShowRoute"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Authorization.ActResultOld"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Authorization.ActResult"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="bd038bf93ab39757a3a5b315dc4551f719b5459d" />
 
-        <activity android:name=".Authorization.VehicalSelectionActivity"></activity>
+        <activity android:name=".Authorization.VehicalSelectionActivity" />
+        <activity android:name=".Authorization.ChangeIPActivity" />
+        <activity android:name=".Authorization.PendingTest"></activity>
     </application>
 
 </manifest>

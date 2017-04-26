@@ -8,11 +8,23 @@
     android:orientation="vertical"
     tools:context="com.rto_driving_test.Authorization.ActShowRoute">
     <!--@color/grey-->
-    <include layout="@layout/tool_bar_layout"></include>
+  <!--  <include layout="@layout/tool_bar_layout"></include>-->
+
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme"
+        android:id="@+id/toolbar_diff"
+        android:background="@color/colorPrimary"
+        >
+
+
+    </android.support.v7.widget.Toolbar>
 
     <RelativeLayout
+        android:id="@+id/rl_longclick"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <ScrollView
             android:layout_width="match_parent"

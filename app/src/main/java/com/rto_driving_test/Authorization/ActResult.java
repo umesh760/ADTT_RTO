@@ -109,7 +109,7 @@ public class ActResult extends BaseActivity {
         switch (view.getId()) {
 
             case R.id.btn_submit_detail:
-                Intent in = new Intent(context,ActAppoimentList.class);
+                Intent in = new Intent(context,ActDiffApplicants.class);
                     startActivity(in);
                 finishAllActivities();
                 break;

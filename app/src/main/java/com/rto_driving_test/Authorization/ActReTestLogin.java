@@ -127,6 +127,7 @@ String sAppId="";
                     Config.SOWODO=jsonObject.getString("So_Wo_Do");
                     Config.DOB=jsonObject.getString("Date_Of_Birth");
                     Config.LICENCE_NUMBER=jsonObject.getString("Licence_Number");
+                    Config.TESTTYPE=jsonObject.optString("TEST_TYPE");
 
                    // Config.USERDETAILS="RETEST";
                     Intent in = new Intent(context,ActRetestAppliDetails.class);

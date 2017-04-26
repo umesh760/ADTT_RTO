@@ -39,6 +39,7 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit.ApiClient;
 import retrofit.BaseRequest;
 import retrofit.RequestReciever;
 import utility.BaseActivity;
@@ -79,7 +80,7 @@ public class ActAppoimentList extends BaseActivity {
 
 
         DummyData();
-        callApi();
+
         addTextListener();
 
 
@@ -193,19 +194,25 @@ public class ActAppoimentList extends BaseActivity {
     }
 
 
-    BaseRequest baseRequest_list;
+
+
+    BaseRequest baseRequest_list=null;
     private void callApi() {
 
         baseRequest_list=new BaseRequest(ActAppoimentList.this);
+
+
         baseRequest_list.setBaseRequestListner(new RequestReciever() {
             @Override
             public void onSuccess(int requestCode, String Json, Object object) {
 
                 JSONArray data = (JSONArray) object;
+                if(appointmentModels!=null)
+                {
+                    appointmentModels.clear();
+                }
                 appointmentModels = baseRequest_list.getDataList(data, AppointmentModel.class);
                 dateSelectAdapter.setList(appointmentModels);
-
-
 
             }
 
@@ -213,6 +220,10 @@ public class ActAppoimentList extends BaseActivity {
             public void onFailure(int requestCode, String errorCode, String message) {
 
                 Toast.makeText(getApplicationContext(),""+message,Toast.LENGTH_LONG).show();
+                if(appointmentModels!=null)
+                {
+                    appointmentModels.clear();
+                }
 
             }
 
@@ -220,12 +231,16 @@ public class ActAppoimentList extends BaseActivity {
             public void onNetworkFailure(int requestCode, String message) {
 
                 Toast.makeText(getApplicationContext(),""+message,Toast.LENGTH_LONG).show();
-
+                if(appointmentModels!=null)
+                {
+                    appointmentModels.clear();
+                }
             }
         });
 
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
+        {
             baseRequest_list.callAPIGET(1,new ArrayMap<String, String>(),"Get_Applicant_list.svc/Get_Applicant/");
         }
 
@@ -235,6 +250,14 @@ public class ActAppoimentList extends BaseActivity {
     protected void onResume() {
         super.onResume();
 //        callAPI();
+        baseRequest_list=null;
+        if(appointmentModels!=null)
+        {
+            appointmentModels.clear();
+        }
+
+        System.out.println("details= "+ApiClient.BASE_URL);
+        callApi();
     }
 
     private ErrorLayout errorLayout;
@@ -437,5 +460,9 @@ public void DummyData()
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
 
+    }
 }

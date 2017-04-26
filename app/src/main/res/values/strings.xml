@@ -6,6 +6,7 @@
     <string name="reciept_no">Receipt id </string>
     <!--<string name="password">*****</string>-->
     <string name="login">Submit</string>
+    <string name="pendingbtn">Pending</string>
     <string name="restart_test">Restart Test</string>
     <string name="login_title">Reference Id</string>
     <string name="home_title">Applicant Details</string>
@@ -36,7 +37,7 @@
     <string name="dist_name5">LMV Tractor Trailer</string>
     <string name="dist_name6">IVC</string>
 
-    <string name="mid_screen">Appoiment Schedule List</string>
+    <string name="mid_screen">Fresh Appointment Schedule </string>
 
     <string name="two_wheelar">Two wheeler</string>
     <string name="four_wheelar">Four wheeler</string>

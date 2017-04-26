@@ -37,8 +37,15 @@ public class VehicalSelectionActivity extends BaseActivity {
         next_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(),ActTestReport.class));
-                finish();
+                /*startActivity(new Intent(getApplicationContext(),ActTestReport.class));
+                finish();*/
+
+                Intent intent=new Intent(getApplicationContext(),ActTestReport.class);
+                intent.putExtra("vehical","twowheeler");
+                startActivity(intent);
+
+
+
             }
         });
 
@@ -46,8 +53,9 @@ public class VehicalSelectionActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
 
-                startActivity(new Intent(getApplicationContext(),ActTestReport.class));
-                finish();
+                Intent intent=new Intent(getApplicationContext(),ActTestReport.class);
+                intent.putExtra("vehical","fourwheeler");
+                startActivity(intent);
 
             }
         });

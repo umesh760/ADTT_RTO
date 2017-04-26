@@ -47,6 +47,7 @@ public class BaseRequest<T> extends BaseRequestParser {
 
     public BaseRequest(Context context) {
         mContext = context;
+
         apiInterface =
                 ApiClient.getClient().create(ApiInterface.class);
         dialog = getProgressesDialog(context);
@@ -177,6 +178,8 @@ public class BaseRequest<T> extends BaseRequestParser {
             jsonObject = new JsonObject();
         }
         logFullResponse(jsonObject.toString(), "INPUT");
+
+
         Call<JsonElement> call = apiInterface.postData(remainingURL, jsonObject);
         call.enqueue(responseCallback);
     }
