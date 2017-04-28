@@ -71,6 +71,11 @@ Context context;
                     new String[]{Manifest.permission.CAMERA}, REQUEST_CODE_PERMISSION);
 
         }
+        else if (!(ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)==MockPackageManager.PERMISSION_GRANTED)) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE_PERMISSION);
+
+        }
         else{
 
             new Handler().postDelayed(new TimerTask() {

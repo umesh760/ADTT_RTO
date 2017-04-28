@@ -39,6 +39,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -68,6 +69,8 @@ public class ActAppoimentList extends BaseActivity {
     @BindView(R.id.et_search_applicant)
     EditText edTxtSearch;
     DateSelectAdapter dateSelectAdapter;
+
+    String photostatus="";
 
     ArrayList<AppointmentModel> appointmentModels=new ArrayList<>();
     final List<AppointmentModel> filteredList = new ArrayList<>();
@@ -186,6 +189,19 @@ public class ActAppoimentList extends BaseActivity {
                         Config.RECEIPT_NUMBER=filteredList.get(position).getReceipt_Number();
                         Config.REF_NUMBER=filteredList.get(position).getReference_Number();
                         Config.SOWODO=filteredList.get(position).getSo_Wo_Do();
+                        String imgbyte=filteredList.get(position).getAPPLICANT_PIC().toString();
+
+                        photostatus=filteredList.get(position).getPhoto_Status().toString();
+
+
+
+                            //byte[] bytes = imgbyte.getBytes("UTF-8");
+                           // byte[] bytes = imgbyte.getBytes("UTF-8");
+                            byte[] decodedString = Base64.decode(imgbyte, Base64.DEFAULT);
+                            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                            Config.APPLICANT_PIC_BASE64= decodedByte;
+
+                        //byte[] decodedString = Base64.decode(imgbyte, Base64.DEFAULT);
 
 
 
@@ -198,6 +214,7 @@ public class ActAppoimentList extends BaseActivity {
                         in.putExtra("fresh","fresh");
                         in.putExtra("name",name);
                         in.putExtra("activityname","FRESH");
+                        in.putExtra("photostatus",photostatus);
                         startActivity(in);
 
 

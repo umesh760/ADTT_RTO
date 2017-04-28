@@ -84,14 +84,16 @@ public class ActRetestAppliDetails extends MediaPickerActivity {
     String imagepath="";
     String path="";
 
-    String sDiff="";
+    String photostatus,sDiff="";
     String nameApp="";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_retest_appli_details);
         ButterKnife.bind(this);
         sDiff=getIntent().getStringExtra("diff");
+        photostatus=getIntent().getStringExtra("photostatus");
         nameApp=getIntent().getStringExtra("name");
         if(sDiff.equals("fresh"))
         {
@@ -116,11 +118,20 @@ public class ActRetestAppliDetails extends MediaPickerActivity {
 
         setTextValue();
 
-        if(sDiff.equals("fresh"))
+        if(sDiff.equals("fresh") && (photostatus.equalsIgnoreCase("N")) )
         {
             btSartTest.setText(getResources().getString(R.string.next));
             btCancel.setVisibility(View.VISIBLE);
             viewDiff.setVisibility(View.VISIBLE);
+        }
+        else if(sDiff.equalsIgnoreCase("fresh") && (photostatus.equalsIgnoreCase("Y")))
+        {
+
+            img.setImageBitmap(Config.APPLICANT_PIC_BASE64);
+            btSartTest.setText(getResources().getString(R.string.start_test));
+            btCancel.setVisibility(View.GONE);
+            viewDiff.setVisibility(View.GONE);
+
         }
         else
         {
