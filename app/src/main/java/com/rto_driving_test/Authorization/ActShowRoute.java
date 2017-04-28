@@ -146,7 +146,7 @@ public class ActShowRoute extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_start:
-                startActivity(new Intent(ActShowRoute.this,ActResult.class));
+                startActivity(new Intent(ActShowRoute.this,ResultActivity.class));
                 break;
 
             case R.id.tv_end:

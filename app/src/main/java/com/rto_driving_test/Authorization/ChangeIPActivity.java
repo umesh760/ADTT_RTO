@@ -1,6 +1,8 @@
 package com.rto_driving_test.Authorization;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.ArrayMap;
@@ -9,20 +11,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.rto_driving_test.Models.AppointmentModel;
 import com.rto_driving_test.R;
-
-import org.json.JSONArray;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import okhttp3.HttpUrl;
 import retrofit.ApiClient;
 import retrofit.BaseRequest;
 import retrofit.RequestReciever;
-import utility.Config;
+import utility.BaseActivity;
 
-public class ChangeIPActivity extends AppCompatActivity {
+public class ChangeIPActivity extends BaseActivity {
 
 
     @BindView(R.id.edit_ip)
@@ -33,12 +31,19 @@ public class ChangeIPActivity extends AppCompatActivity {
     String ip;
     BaseRequest baseRequest=null;
 
+    SharedPreferences sp;
+    SharedPreferences.Editor editor;
+    public static String MY_PREF="ipadd";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_ip);
 
         ButterKnife.bind(this);
+
+        sp=getApplicationContext().getSharedPreferences(MY_PREF, Context.MODE_PRIVATE);
+        editor=sp.edit();
 
         ip=ipEdit.getText().toString();
 
@@ -50,11 +55,18 @@ public class ChangeIPActivity extends AppCompatActivity {
                // baseRequest=new BaseRequest(getApplicationContext());
                 ApiClient.BASE_URL=null;
                 //Config.IP_ADDRESS=ipEdit.getText().toString();
-                ApiClient.BASE_URL="http://"+ipEdit.getText().toString()+"/ADTT_SEVICE/";
+
+                String s=ipEdit.getText().toString();
+                editor.putString("ipaddress",s);
+                editor.commit();
+
+
+
+                ApiClient.BASE_URL="http://"+sp.getString("ipaddress","")+"/ADTT_SEVICE/";
 //                BaseRequest baseRequest_list=new BaseRequest(ChangeIPActivity.this);
               //  callApi();
                 Toast.makeText(getApplicationContext(),"New IP configuration set up"+"\n"+ApiClient.BASE_URL,Toast.LENGTH_LONG).show();
-                startActivity(new Intent(getApplicationContext(),ActDiffApplicants.class));
+                startActivity(new Intent(getApplicationContext(),HomeActivity.class));
                 finish();
             }
         });

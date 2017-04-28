@@ -11,9 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.gson.JsonObject;
 import com.rto_driving_test.R;
 
 import org.json.JSONException;
@@ -23,9 +21,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import utility.BaseActivity;
+import utility.Config;
 import utility.ErrorLayout;
 
-public class ActResult extends BaseActivity {
+public class ResultActivity extends BaseActivity {
     Context context;
     Activity activity;
 
@@ -77,7 +76,9 @@ public class ActResult extends BaseActivity {
 
             byte[] decodedString = Base64.decode(img, Base64.DEFAULT);
             Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-            app_pic.setImageBitmap(decodedByte);
+           // app_pic.setImageBitmap(decodedByte);
+
+            app_pic.setImageBitmap(Config.APPLICANT_PIC_BASE64);
 
 
 
@@ -109,7 +110,7 @@ public class ActResult extends BaseActivity {
         switch (view.getId()) {
 
             case R.id.btn_submit_detail:
-                Intent in = new Intent(context,ActDiffApplicants.class);
+                Intent in = new Intent(context,HomeActivity.class);
                     startActivity(in);
                 finishAllActivities();
                 break;

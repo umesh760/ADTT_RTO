@@ -29,7 +29,7 @@ import utility.BaseActivity;
 import utility.Config;
 import utility.ErrorLayout;
 
-public class ActReTestLogin extends BaseActivity {
+public class RetestActivity extends BaseActivity {
     @BindView(R.id.et_reference)
     EditText etRef;
 
@@ -128,6 +128,8 @@ String sAppId="";
                     Config.DOB=jsonObject.getString("Date_Of_Birth");
                     Config.LICENCE_NUMBER=jsonObject.getString("Licence_Number");
                     Config.TESTTYPE=jsonObject.optString("TEST_TYPE");
+                    Config.DRIVER_NUMBER= Integer.parseInt(jsonObject.optString("DRIVER_NUMBER"));
+                    Config.RTO_CODE=jsonObject.optString("RTO_CODE");
 
                    // Config.USERDETAILS="RETEST";
                     Intent in = new Intent(context,ActRetestAppliDetails.class);

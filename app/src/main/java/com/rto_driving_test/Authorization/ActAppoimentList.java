@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.ArrayMap;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +35,10 @@ import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -42,15 +49,18 @@ import butterknife.OnClick;
 import retrofit.ApiClient;
 import retrofit.BaseRequest;
 import retrofit.RequestReciever;
+import utility.Base64Decode;
 import utility.BaseActivity;
 import utility.Config;
 import utility.ErrorLayout;
+import utility.ResizeImage;
 
 public class ActAppoimentList extends BaseActivity {
 
     Context context;
     RecyclerView recyViewAppoi;
     Activity activity;
+
     ArrayList<AppoimentBean> std10List = new ArrayList<AppoimentBean>();
 
     private List<AppointmentModel> list = new ArrayList<AppointmentModel>();
@@ -60,6 +70,7 @@ public class ActAppoimentList extends BaseActivity {
     DateSelectAdapter dateSelectAdapter;
 
     ArrayList<AppointmentModel> appointmentModels=new ArrayList<>();
+    final List<AppointmentModel> filteredList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +95,7 @@ public class ActAppoimentList extends BaseActivity {
         addTextListener();
 
 
+
        /* edTxtSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -104,6 +116,8 @@ public class ActAppoimentList extends BaseActivity {
         });*/
     }
 
+
+
     private void addTextListener() {
 
 
@@ -117,16 +131,26 @@ public class ActAppoimentList extends BaseActivity {
             public void onTextChanged(CharSequence query, int start, int before, int count) {
 
 
+                filteredList.clear();
+
                 query = query.toString().toLowerCase();
 
-                final List<AppointmentModel> filteredList = new ArrayList<>();
+
 
                 for (int i = 0; i < appointmentModels.size(); i++) {
                     try {
                         final String text = appointmentModels.get(i).getApplicant_Name().toString().toLowerCase();
-                        if (text.contains(query)) {
+                        String ref=appointmentModels.get(i).getReference_Number().toString().toLowerCase();
+
+                        if (text.contains(query.toString()) ) {
                             filteredList.add(appointmentModels.get(i));
                         }
+                        else if(ref.contains(query.toString()))
+                        {
+                            filteredList.add(appointmentModels.get(i));
+                        }
+
+
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -144,22 +168,24 @@ public class ActAppoimentList extends BaseActivity {
 //                    mcontext.startActivity(new Intent(mcontext, LoginActivity.class).putExtra("app_id",id));
 
                         AppointmentModel appointmentModel=new AppointmentModel();
-                        appointmentModels.add(appointmentModel);
+                       // appointmentModels.add(appointmentModel);
+                        filteredList.add(appointmentModel);
 
 
-                        String name=appointmentModels.get(position).getApplicant_Name();
 
-                        Config.APPLICANT_FIRST_NAME=appointmentModels.get(position).getApplicant_Name();
-                        Config.APPLICANT_LAST_NAME=appointmentModels.get(position).getApplicant_Last_Name();
-                        Config.RTO_CODE=appointmentModels.get(position).getRTO_CODE();
-                        Config.APPOINTMENT_DATE=appointmentModels.get(position).getAppointment_Date();
-                        Config.DRIVER_NUMBER=appointmentModels.get(position).getDRIVER_NUMBER();
-                        Config.NUMBER=appointmentModels.get(position).getNumber();
-                        Config.LICENCE_NUMBER=appointmentModels.get(position).getLicence_Number();
-                        Config.DOB=appointmentModels.get(position).getDate_Of_Birth();
-                        Config.RECEIPT_NUMBER=appointmentModels.get(position).getReceipt_Number();
-                        Config.REF_NUMBER=appointmentModels.get(position).getReference_Number();
-                        Config.SOWODO=appointmentModels.get(position).getSo_Wo_Do();
+                        String name=filteredList.get(position).getApplicant_Name();
+
+                        Config.APPLICANT_FIRST_NAME=filteredList.get(position).getApplicant_Name();
+                        Config.APPLICANT_LAST_NAME=filteredList.get(position).getApplicant_Last_Name();
+                        Config.RTO_CODE=filteredList.get(position).getRTO_CODE();
+                        Config.APPOINTMENT_DATE=filteredList.get(position).getAppointment_Date();
+                        Config.DRIVER_NUMBER=filteredList.get(position).getDRIVER_NUMBER();
+                        Config.NUMBER=filteredList.get(position).getNumber();
+                        Config.LICENCE_NUMBER=filteredList.get(position).getLicence_Number();
+                        Config.DOB=filteredList.get(position).getDate_Of_Birth();
+                        Config.RECEIPT_NUMBER=filteredList.get(position).getReceipt_Number();
+                        Config.REF_NUMBER=filteredList.get(position).getReference_Number();
+                        Config.SOWODO=filteredList.get(position).getSo_Wo_Do();
 
 
 
@@ -181,6 +207,7 @@ public class ActAppoimentList extends BaseActivity {
 
                 recyViewAppoi.setAdapter(dateSelectAdapter);
                 dateSelectAdapter.notifyDataSetChanged();
+                //filteredList.clear();
 
 
             }

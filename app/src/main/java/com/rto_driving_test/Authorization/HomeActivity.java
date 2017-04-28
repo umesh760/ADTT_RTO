@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -20,12 +21,10 @@ import com.rto_driving_test.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.OnLongClick;
-import retrofit.ApiClient;
 import utility.BaseActivity;
 import utility.ErrorLayout;
 
-public class ActDiffApplicants extends BaseActivity {
+public class HomeActivity extends BaseActivity {
     Context context;
     Activity activity;
 
@@ -37,7 +36,16 @@ public class ActDiffApplicants extends BaseActivity {
     @BindView(R.id.rl_longclick)
     RelativeLayout rl_click;
 
+    @BindView(R.id.ipaddress)
+            TextView ipAdd;
+    @BindView(R.id.ipaddresstext)
+            TextView ipaddresstext;
+
     Toolbar toolbar;
+    SharedPreferences sp;
+    SharedPreferences.Editor editor;
+    public static String MY_PREF="ipadd";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,12 +56,28 @@ public class ActDiffApplicants extends BaseActivity {
         toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
 
+        sp=getApplicationContext().getSharedPreferences(MY_PREF,Context.MODE_PRIVATE);
+
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
        // setAppBar(getAppString(R.string.select_applic), true);
         initViews();
         context = this;
         activity = this;
+
+        ipAdd.setText(sp.getString("ipaddress",""));
+
+
+
+        ipaddresstext.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+
+
+                startActivity(new Intent(getApplicationContext(),ChangeIPActivity.class));
+                return false;
+            }
+        });
 
     }
 
@@ -91,7 +115,7 @@ public class ActDiffApplicants extends BaseActivity {
         });*/
     }
 
-    @OnClick({R.id.bt_fresh,R.id.bt_retest,R.id.rl_longclick})
+    @OnClick({R.id.bt_fresh,R.id.bt_retest})/*,R.id.rl_longclick*/
     public void onClick(View view) {
         switch (view.getId()) {
 
@@ -104,17 +128,17 @@ public class ActDiffApplicants extends BaseActivity {
                 break;
             case R.id.bt_retest:
                 if(validation()) {
-                Intent in1 = new Intent(context,ActReTestLogin.class);
+                Intent in1 = new Intent(context,RetestActivity.class);
              in1.putExtra("app_id","1");
                 startActivity(in1);
                 }
                 break;
 
-            case R.id.rl_longclick:
+            /*case R.id.rl_longclick:
                 Toast.makeText(getApplicationContext(),"click long press",Toast.LENGTH_LONG).show();
 
                 startActivity(new Intent(getApplicationContext(),ChangeIPActivity.class));
-                break;
+                break;*/
 
 
 
@@ -128,7 +152,7 @@ public class ActDiffApplicants extends BaseActivity {
 
     private boolean validation() {
 
-        if(TextUtils.isEmpty(ApiClient.BASE_URL)) {
+        if(TextUtils.isEmpty(sp.getString("ipaddress",""))) {
             Toast.makeText(getApplicationContext(),"Please Set IP Address",Toast.LENGTH_LONG).show();
             return false;
         }
@@ -154,7 +178,7 @@ public class ActDiffApplicants extends BaseActivity {
             if (logoutDlg != null) {
                 logoutDlg.cancel();
             }
-            logoutDlg = new Dialog(ActDiffApplicants.this, R.style.MyDialogTheme1);
+            logoutDlg = new Dialog(HomeActivity.this, R.style.MyDialogTheme1);
             logoutDlg.requestWindowFeature(Window.FEATURE_NO_TITLE);
             logoutDlg.setContentView(R.layout.logout_app);
             logoutDlg.setCanceledOnTouchOutside(false);

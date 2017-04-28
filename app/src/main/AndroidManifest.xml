@@ -44,10 +44,10 @@
             android:name=".Authorization.ActRetestAppliDetails"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Authorization.ActReTestLogin"
+            android:name=".Authorization.RetestActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Authorization.ActDiffApplicants"
+            android:name=".Authorization.HomeActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Authorization.ActAppoimentList"
@@ -68,7 +68,7 @@
             android:name=".Authorization.ActResultOld"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Authorization.ActResult"
+            android:name=".Authorization.ResultActivity"
             android:screenOrientation="portrait" />
 
         <meta-data

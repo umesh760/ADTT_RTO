@@ -62,10 +62,10 @@
                         android:layout_height="@dimen/button_height"
                         android:background="@null"
                         android:hint="@string/center_no"
-                        android:inputType="number"
+
                         android:paddingLeft="10dp"
                         android:maxLength="20"
-                        android:text=""
+                        android:text="9317089248114"
 
                         android:textColor="@color/text_primary"
                         android:textSize="@dimen/text_normal"/>
@@ -110,7 +110,7 @@
 
                     android:paddingLeft="10dp"
                     android:maxLength="20"
-                    android:text=""
+                    android:text="MP221420993306 "
                     android:layout_toRightOf="@+id/iv_mobi"
                     android:textColor="@color/text_primary"
                     android:textSize="@dimen/text_normal"/>

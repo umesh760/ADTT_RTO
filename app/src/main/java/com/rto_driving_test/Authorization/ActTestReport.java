@@ -7,8 +7,8 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.TextUtils;
-import android.util.ArrayMap;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -31,9 +31,7 @@ import java.util.concurrent.TimeUnit;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import okhttp3.MediaType;
 import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import retrofit.BaseRequest;
 import retrofit.RequestReciever;
 import utility.Base64Decode;
@@ -41,9 +39,6 @@ import utility.BaseActivity;
 import utility.Config;
 import utility.ErrorLayout;
 import utility.ResizeImage;
-
-import static android.R.attr.path;
-import static android.R.attr.start;
 
 public class ActTestReport extends BaseActivity {
 
@@ -70,6 +65,9 @@ String imagepath="";
 
     String type_vehical;
 
+    JSONObject jsonObject=null;
+    String typetest="";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,12 +88,32 @@ String imagepath="";
 //        });
 
 
+
+        Intent i=new Intent();
+        typetest=getIntent().getStringExtra("type");
+        if(typetest.equalsIgnoreCase("fresh"))
+        {
+
+            try {
+                jsonObject = new JSONObject(getIntent().getStringExtra("dataobject"));
+            }
+            catch (Exception e)
+            {
+                System.out.println("Exception"+e.toString());
+            }
+
+        }
+
+
+
         type_vehical=getIntent().getStringExtra("vehical");
+
+        Log.e("VEHICAL>>>>>>>>",type_vehical);
         initViews();
         btReTest.setVisibility(View.GONE);
 
 
-        String s=Config.IMAGE_PATH;
+      /*  String s=Config.IMAGE_PATH;
         encodeImage(s);
 
        ResizeImage resize= new ResizeImage(ActTestReport.this);
@@ -107,7 +125,7 @@ String imagepath="";
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         photo.compress(Bitmap.CompressFormat.PNG, 10, stream);
         byte[] byteArray = stream.toByteArray();
-        imagepath = Base64Decode.encodeBytes(byteArray);
+        imagepath = Base64Decode.encodeBytes(byteArray);*/
 
 
     }
@@ -184,16 +202,30 @@ String imagepath="";
 
             case R.id.bt_restart:
 
-                Intent in = new Intent(context,ActDiffApplicants.class);
+                Intent in = new Intent(context,HomeActivity.class);
                 startActivity(in);
                 finishAllActivities();
                 break;
             case R.id.bt_submit:
 
-                /*Intent in1 = new Intent(context, ActResult.class);
+                /*Intent in1 = new Intent(context, ResultActivity.class);
                 startActivity(in1);*/
 
-                callApi();
+                /*callApi();*/
+
+
+                if(typetest.equalsIgnoreCase("fresh")) {
+                    Intent in1 = new Intent(context, ResultActivity.class);
+                    in1.putExtra("dataobject", jsonObject.toString());
+
+                    startActivity(in1);
+                }
+                else if(typetest.equalsIgnoreCase("retest")) {
+
+                    Intent in1 = new Intent(context, ResultActivity.class);
+                    in1.putExtra("dataobject","");
+                    startActivity(in1);
+                }
 
 
 
@@ -258,9 +290,12 @@ BaseRequest baseRequestFW;
             }
         });
 
-        JsonObject jsonObject=Functions.getClient().getJsonMapObject("DriverNo", String.valueOf(Config.DRIVER_NUMBER),
-                "LL_No",Config.LICENCE_NUMBER,"Receipt_No",Config.RECEIPT_NUMBER,"Reference_no",Config.REF_NUMBER,
-                "Test_type",Config.TESTTYPE,"gRTOCODE",Config.RTO_CODE, "DashBoard_Cam","192.168.10.10");
+        JsonObject jsonObject=Functions.getClient().getJsonMapObject(
+                "DriverNo", String.valueOf(Config.DRIVER_NUMBER),
+                "LL_No",Config.LICENCE_NUMBER,"Receipt_No",
+                Config.RECEIPT_NUMBER,"Reference_no",Config.REF_NUMBER,
+                "Test_type",Config.TESTTYPE,"gRTOCODE",Config.RTO_CODE,
+                    "DashBoard_Cam","192.168.10.10");
         baseRequestFW.callAPIPost(1,jsonObject,"Get_Applicant_list.svc/FW_Test/Get_Fw_request");
 
     }
@@ -315,8 +350,11 @@ BaseRequest baseRequestFW;
        // String url="Get_Applicant_list.svc/TW_Test/"+Config.DRIVER_NUMBER +"/"+ Config.RTO_CODE+"/"+Config.RECEIPT_NUMBER+"/"+Config.LICENCE_NUMBER+"/"+Config.REF_NUMBER+"/"+Config.TESTTYPE;
 
 
-        JsonObject jsonObject=Functions.getClient().getJsonMapObject("DriverNo", String.valueOf(Config.DRIVER_NUMBER),
-                "LL_No",Config.LICENCE_NUMBER,"Receipt_No",Config.RECEIPT_NUMBER,"Reference_no",Config.REF_NUMBER,
+        JsonObject jsonObject=Functions.getClient().getJsonMapObject(
+                "DriverNo", String.valueOf(Config.DRIVER_NUMBER),
+                "LL_No",Config.LICENCE_NUMBER,
+                "Receipt_No",Config.RECEIPT_NUMBER,
+                "Reference_no",Config.REF_NUMBER,
                 "Test_type",Config.TESTTYPE,"gRTOCODE",Config.RTO_CODE);
         baseRequestTW.callAPIPost(1,jsonObject,"Get_Applicant_list.svc/TW_Test/Get_Tw_request");
 
@@ -364,7 +402,7 @@ BaseRequest baseRequestFW;
 
                         JSONObject jsonObject=data.getJSONObject(0);
 
-                        Intent in1 = new Intent(context, ActResult.class);
+                        Intent in1 = new Intent(context, ResultActivity.class);
                         in1.putExtra("dataobject",jsonObject.toString());
 
                         startActivity(in1);
@@ -397,7 +435,8 @@ BaseRequest baseRequestFW;
             }
         });
 
-        JsonObject jsonObject= Functions.getClient().getJsonMapObject("RTOCODE",Config.RTO_CODE,
+        JsonObject jsonObject= Functions.getClient().getJsonMapObject(
+                "RTOCODE",Config.RTO_CODE,
                 "DriverNo", String.valueOf(Config.DRIVER_NUMBER),
                 "Receipt_No",Config.RECEIPT_NUMBER,
                 "Ref_Number",Config.REF_NUMBER,

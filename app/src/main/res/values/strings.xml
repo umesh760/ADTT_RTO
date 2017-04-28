@@ -2,8 +2,8 @@
     <string name="app_name">Automated driving test</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="center_no">Enter Reference Id</string>
-    <string name="reciept_no">Receipt id </string>
+    <string name="center_no">Enter Receipt Id</string>
+    <string name="reciept_no">Enter Reference Number </string>
     <!--<string name="password">*****</string>-->
     <string name="login">Submit</string>
     <string name="pendingbtn">Pending</string>
@@ -26,7 +26,7 @@
     <string name="nextbtn">Two Wheeler</string>
     <string name="nextbtn_four">Four Wheeler</string>
     <string name="cancel">Cancel</string>
-    <string name="back_to_list">Back To Appoiment</string>
+    <string name="back_to_list">Back To Appointment</string>
 
     <string name="dist_select">कृपया सही जिला का चयन करें</string>
     <string name="dist_name">Motor Cycle Without Gear Less Than 50CC</string>

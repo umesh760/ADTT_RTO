@@ -76,7 +76,7 @@ Context context;
             new Handler().postDelayed(new TimerTask() {
                 @Override
                 public void run() {
-                    startActivity(new Intent(SplashActivity.this, ActDiffApplicants.class));
+                    startActivity(new Intent(SplashActivity.this, HomeActivity.class));
                     finishAllActivities();
 
 //                    if (Utility.isConnectingToInternet(context)) {
@@ -208,7 +208,7 @@ Context context;
 //                    checkPermissions();
 
 //                    startActivity(new Intent(SplashActivity.this, ActAppoimentList.class));
-//                    startActivity(new Intent(SplashActivity.this, ActDiffApplicants.class));
+//                    startActivity(new Intent(SplashActivity.this, HomeActivity.class));
 //                    finishAllActivities();
                 }
                 else

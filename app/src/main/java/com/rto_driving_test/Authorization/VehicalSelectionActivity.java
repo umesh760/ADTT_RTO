@@ -10,6 +10,8 @@ import android.widget.Spinner;
 
 import com.rto_driving_test.R;
 
+import org.json.JSONObject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import utility.BaseActivity;
@@ -24,6 +26,9 @@ public class VehicalSelectionActivity extends BaseActivity {
     Button next_btn;
     @BindView(R.id.btn_next_four)
     Button next_btnfour;
+    JSONObject jsonObject=null;
+
+    String typetest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +36,26 @@ public class VehicalSelectionActivity extends BaseActivity {
         setContentView(R.layout.activity_vehical_selection);
         ButterKnife.bind(this);
         setAppBar(getAppString(R.string.vehical_class), true);
+
+
+        Intent i=new Intent();
+        typetest=getIntent().getStringExtra("type");
+        if(typetest.equalsIgnoreCase("fresh"))
+        {
+            try {
+                jsonObject = new JSONObject(getIntent().getStringExtra("dataobject"));
+            }
+            catch (Exception e)
+            {
+                System.out.println(""+e.toString());
+            }
+
+        }
+
+
+
+
+
        /* ad=new ArrayAdapter<String>(getApplicationContext(),R.layout.spin_item,type);
         spinner.setAdapter(ad);*/
 
@@ -40,9 +65,25 @@ public class VehicalSelectionActivity extends BaseActivity {
                 /*startActivity(new Intent(getApplicationContext(),ActTestReport.class));
                 finish();*/
 
-                Intent intent=new Intent(getApplicationContext(),ActTestReport.class);
-                intent.putExtra("vehical","twowheeler");
-                startActivity(intent);
+
+                if(typetest.equalsIgnoreCase("fresh")) {
+                    Intent intent = new Intent(getApplicationContext(), ActTestReport.class);
+                    intent.putExtra("vehical", "twowheeler");
+                    intent.putExtra("dataobject", jsonObject.toString());
+                    intent.putExtra("type",typetest);
+                    startActivity(intent);
+                }
+                else if(typetest.equalsIgnoreCase("retest")) {
+
+                    Intent intent = new Intent(getApplicationContext(), ActTestReport.class);
+                    /*intent.putExtra("vehical", "twowheeler");
+                    intent.putExtra("dataobject", jsonObject.toString());*/
+                    intent.putExtra("type",typetest);
+                    intent.putExtra("vehical", "twowheeler");
+                    intent.putExtra("dataobject", "");
+                    startActivity(intent);
+
+                }
 
 
 
@@ -53,9 +94,26 @@ public class VehicalSelectionActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
 
-                Intent intent=new Intent(getApplicationContext(),ActTestReport.class);
-                intent.putExtra("vehical","fourwheeler");
-                startActivity(intent);
+                if(typetest.equalsIgnoreCase("fresh")){
+
+                    Intent intent=new Intent(getApplicationContext(),ActTestReport.class);
+                    intent.putExtra("vehical","fourwheeler");
+                    intent.putExtra("dataobject",jsonObject.toString());
+                    intent.putExtra("type",typetest);
+                    startActivity(intent);
+
+                }
+                else {
+
+
+                    Intent intent=new Intent(getApplicationContext(),ActTestReport.class);
+                    intent.putExtra("type",typetest);
+                    intent.putExtra("vehical","fourwheeler");
+                    intent.putExtra("dataobject", "");
+                    startActivity(intent);
+
+                }
+
 
             }
         });
