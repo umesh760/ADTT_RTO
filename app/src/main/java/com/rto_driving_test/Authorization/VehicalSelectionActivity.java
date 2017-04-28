@@ -84,6 +84,16 @@ public class VehicalSelectionActivity extends BaseActivity {
                     startActivity(intent);
 
                 }
+                else if(typetest.equalsIgnoreCase("pending"))
+                {
+                    Intent intent = new Intent(getApplicationContext(), ActTestReport.class);
+                    intent.putExtra("vehical", "twowheeler");
+                    intent.putExtra("dataobject", "");
+                    intent.putExtra("type",typetest);
+                    startActivity(intent);
+
+
+                }
 
 
 

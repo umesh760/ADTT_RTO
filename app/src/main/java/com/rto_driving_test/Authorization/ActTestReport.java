@@ -226,6 +226,13 @@ String imagepath="";
                     in1.putExtra("dataobject","");
                     startActivity(in1);
                 }
+                else if(typetest.equalsIgnoreCase("pending"))
+                {
+                    Intent in1 = new Intent(context, ResultActivity.class);
+                    in1.putExtra("dataobject","");
+                    startActivity(in1);
+
+                }
 
 
 

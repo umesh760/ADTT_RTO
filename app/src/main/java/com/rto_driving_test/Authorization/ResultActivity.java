@@ -77,7 +77,6 @@ public class ResultActivity extends BaseActivity {
             byte[] decodedString = Base64.decode(img, Base64.DEFAULT);
             Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
            // app_pic.setImageBitmap(decodedByte);
-
             app_pic.setImageBitmap(Config.APPLICANT_PIC_BASE64);
 
 

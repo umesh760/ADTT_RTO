@@ -260,7 +260,7 @@ public class ActRetestAppliDetails extends MediaPickerActivity {
 
             case R.id.btn_start_test:
 
-                if(sDiff.equals("fresh"))
+                if(sDiff.equals("fresh") && photostatus.equalsIgnoreCase("N"))
                 {
                     if(checkClick==0)
                     {
@@ -302,6 +302,17 @@ public class ActRetestAppliDetails extends MediaPickerActivity {
                     in.putExtra("type","retest");
                     startActivity(in);
                     finish();
+                }
+
+                else  if (sDiff.equalsIgnoreCase("fresh") && photostatus.equalsIgnoreCase("Y"))
+                {
+
+                    Intent in = new Intent(context,VehicalSelectionActivity.class);
+                    in.putExtra("dataobject","");
+                    in.putExtra("type","pending");
+                    startActivity(in);
+                    finish();
+
                 }
                 break;
             case R.id.btn_cancel_retest:
