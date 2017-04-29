@@ -27,6 +27,7 @@ public class VehicalSelectionActivity extends BaseActivity {
     @BindView(R.id.btn_next_four)
     Button next_btnfour;
     JSONObject jsonObject=null;
+    String photostatus;
 
     String typetest;
 
@@ -40,6 +41,8 @@ public class VehicalSelectionActivity extends BaseActivity {
 
         Intent i=new Intent();
         typetest=getIntent().getStringExtra("type");
+        photostatus=getIntent().getStringExtra("picstatus");
+
         if(typetest.equalsIgnoreCase("fresh"))
         {
             try {
@@ -86,10 +89,14 @@ public class VehicalSelectionActivity extends BaseActivity {
                 }
                 else if(typetest.equalsIgnoreCase("pending"))
                 {
+
+                    //if(photostatus.equalsIgnoreCase("Y"))
+
                     Intent intent = new Intent(getApplicationContext(), ActTestReport.class);
                     intent.putExtra("vehical", "twowheeler");
                     intent.putExtra("dataobject", "");
                     intent.putExtra("type",typetest);
+
                     startActivity(intent);
 
 

@@ -2,6 +2,7 @@ package com.rto_driving_test.Authorization;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
@@ -41,6 +42,11 @@ public class RetestActivity extends BaseActivity {
 
 String sAppId="";
 
+    SharedPreferences sp;
+    SharedPreferences.Editor editor;
+    public static String MY_PREF="ipadd";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +57,9 @@ String sAppId="";
         setAppBar(getAppString(R.string.login_title), true);
         initViews();
         sAppId=getIntent().getStringExtra("app_id");
+
+        sp=getApplicationContext().getSharedPreferences(MY_PREF,Context.MODE_PRIVATE);
+
     }
 
     private ErrorLayout errorLayout;

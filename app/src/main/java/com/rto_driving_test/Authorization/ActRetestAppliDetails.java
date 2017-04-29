@@ -95,7 +95,7 @@ public class ActRetestAppliDetails extends MediaPickerActivity {
         sDiff=getIntent().getStringExtra("diff");
         photostatus=getIntent().getStringExtra("photostatus");
         nameApp=getIntent().getStringExtra("name");
-        if(sDiff.equals("fresh"))
+        if(sDiff.equals("fresh") && (photostatus.equalsIgnoreCase("N")) )
         {
 
             setAppBar("CANDIDATE DETAIL (FRESH)", true);
@@ -310,6 +310,7 @@ public class ActRetestAppliDetails extends MediaPickerActivity {
                     Intent in = new Intent(context,VehicalSelectionActivity.class);
                     in.putExtra("dataobject","");
                     in.putExtra("type","pending");
+                    in.putExtra("picstatus",photostatus);
                     startActivity(in);
                     finish();
 

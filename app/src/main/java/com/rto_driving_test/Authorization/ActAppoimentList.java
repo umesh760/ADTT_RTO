@@ -190,18 +190,12 @@ public class ActAppoimentList extends BaseActivity {
                         Config.REF_NUMBER=filteredList.get(position).getReference_Number();
                         Config.SOWODO=filteredList.get(position).getSo_Wo_Do();
                         String imgbyte=filteredList.get(position).getAPPLICANT_PIC().toString();
-
                         photostatus=filteredList.get(position).getPhoto_Status().toString();
-
-
-
-                            //byte[] bytes = imgbyte.getBytes("UTF-8");
-                           // byte[] bytes = imgbyte.getBytes("UTF-8");
                             byte[] decodedString = Base64.decode(imgbyte, Base64.DEFAULT);
                             Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
                             Config.APPLICANT_PIC_BASE64= decodedByte;
 
-                        //byte[] decodedString = Base64.decode(imgbyte, Base64.DEFAULT);
+
 
 
 
@@ -421,6 +415,27 @@ public void DummyData()
                  Config.RECEIPT_NUMBER=appointmentModels.get(position).getReceipt_Number();
                  Config.REF_NUMBER=appointmentModels.get(position).getReference_Number();
                  Config.SOWODO=appointmentModels.get(position).getSo_Wo_Do();
+                 String imgbyte=appointmentModels.get(position).getAPPLICANT_PIC().toString();
+                 photostatus=appointmentModels.get(position).getPhoto_Status().toString();
+                 byte[] decodedString = Base64.decode(imgbyte, Base64.DEFAULT);
+                 Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                 Config.APPLICANT_PIC_BASE64= decodedByte;
+
+
+
+
+
+
+
+                 // Toast.makeText(getApplicationContext(),""+position,Toast.LENGTH_LONG).show();
+
+                 Intent in = new Intent(getApplicationContext(),ActRetestAppliDetails.class);
+                 in.putExtra("diff","fresh");
+                 in.putExtra("fresh","fresh");
+                 in.putExtra("name",name);
+                 in.putExtra("activityname","FRESH");
+                 in.putExtra("photostatus",photostatus);
+                 startActivity(in);
 
 
 
@@ -428,11 +443,6 @@ public void DummyData()
 
                         // Toast.makeText(getApplicationContext(),""+position,Toast.LENGTH_LONG).show();
 
-                         Intent in = new Intent(getApplicationContext(),ActRetestAppliDetails.class);
-                         in.putExtra("diff","fresh");
-                         in.putExtra("fresh","fresh");
-                         in.putExtra("name",name);
-                         startActivity(in);
 
 
              }
