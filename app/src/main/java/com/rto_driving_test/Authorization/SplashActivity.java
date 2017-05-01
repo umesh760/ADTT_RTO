@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -13,6 +14,7 @@ import android.os.Handler;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.test.mock.MockPackageManager;
+import android.text.TextUtils;
 import android.util.Base64;
 import android.view.View;
 import android.view.Window;
@@ -45,6 +47,11 @@ public class SplashActivity extends BaseActivity {
     SessionParam sessionParam;
     private static final int REQUEST_CODE_PERMISSION = 2;
 Context context;
+
+    SharedPreferences sp;
+    SharedPreferences.Editor editor;
+    public static String MY_PREF="ipadd";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,8 +61,18 @@ Context context;
                     WindowManager.LayoutParams.FLAG_FULLSCREEN);
         }
         setContentView(R.layout.activity_splash_acivity);
+
+        sp=getApplicationContext().getSharedPreferences(MY_PREF,Context.MODE_PRIVATE);
+        String ipaddress=sp.getString("ipaddress","");
         context = this;
         checkPermissions();
+
+        if(!TextUtils.isEmpty(ipaddress))
+        {
+
+            ApiClient.BASE_URL="http://"+ipaddress+"/ADTT_SEVICE/";
+        }
+
     }
 
 

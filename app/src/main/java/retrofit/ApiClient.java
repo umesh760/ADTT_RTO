@@ -45,8 +45,8 @@ public class ApiClient {
     public static OkHttpClient getRequestHeader() {
         if (null == okHttpClient) {
             okHttpClient = new OkHttpClient.Builder()
-                    .readTimeout(45, TimeUnit.SECONDS)
-                    .connectTimeout(45, TimeUnit.SECONDS)
+                    .readTimeout(120, TimeUnit.SECONDS)
+                    .connectTimeout(120, TimeUnit.SECONDS)
                     .build();
         }
         return okHttpClient;

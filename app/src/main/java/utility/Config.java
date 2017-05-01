@@ -31,7 +31,7 @@ public class Config {
     public static String REF_NUMBER="";
     public static String RECEIPT_NUMBER="";
     public static String SOWODO="";
-    public static String TESTTYPE="F";
+    public static String TESTTYPE="";
     public static String APPOINTMENT_DATE="";
     public static int NUMBER;
     public static String DOB="";

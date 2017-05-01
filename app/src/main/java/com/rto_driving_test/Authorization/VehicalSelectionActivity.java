@@ -74,6 +74,7 @@ public class VehicalSelectionActivity extends BaseActivity {
                     intent.putExtra("vehical", "twowheeler");
                     intent.putExtra("dataobject", jsonObject.toString());
                     intent.putExtra("type",typetest);
+                    intent.putExtra("type_vichal","T");
                     startActivity(intent);
                 }
                 else if(typetest.equalsIgnoreCase("retest")) {
@@ -84,6 +85,7 @@ public class VehicalSelectionActivity extends BaseActivity {
                     intent.putExtra("type",typetest);
                     intent.putExtra("vehical", "twowheeler");
                     intent.putExtra("dataobject", "");
+                    intent.putExtra("type_vichal","T");
                     startActivity(intent);
 
                 }
@@ -96,6 +98,7 @@ public class VehicalSelectionActivity extends BaseActivity {
                     intent.putExtra("vehical", "twowheeler");
                     intent.putExtra("dataobject", "");
                     intent.putExtra("type",typetest);
+                    intent.putExtra("type_vichal","T");
 
                     startActivity(intent);
 
@@ -117,6 +120,7 @@ public class VehicalSelectionActivity extends BaseActivity {
                     intent.putExtra("vehical","fourwheeler");
                     intent.putExtra("dataobject",jsonObject.toString());
                     intent.putExtra("type",typetest);
+                    intent.putExtra("type_vichal","F");
                     startActivity(intent);
 
                 }
@@ -127,6 +131,7 @@ public class VehicalSelectionActivity extends BaseActivity {
                     intent.putExtra("type",typetest);
                     intent.putExtra("vehical","fourwheeler");
                     intent.putExtra("dataobject", "");
+                    intent.putExtra("type_vichal","F");
                     startActivity(intent);
 
                 }

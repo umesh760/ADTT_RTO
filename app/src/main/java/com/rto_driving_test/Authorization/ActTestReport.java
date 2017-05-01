@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.TextUtils;
+import android.util.ArrayMap;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -59,6 +60,8 @@ public class ActTestReport extends BaseActivity {
     @BindView(R.id.tv_start)
     TextView timer;
 
+
+
     MultipartBody.Part body;
 
 String imagepath="";
@@ -66,7 +69,7 @@ String imagepath="";
     String type_vehical;
 
     JSONObject jsonObject=null;
-    String typetest="";
+    String typetest="",typeVehical="";
 
 
     @Override
@@ -91,6 +94,7 @@ String imagepath="";
 
         Intent i=new Intent();
         typetest=getIntent().getStringExtra("type");
+        typeVehical=getIntent().getStringExtra("type_vichal");
         if(typetest.equalsIgnoreCase("fresh"))
         {
 
@@ -215,22 +219,25 @@ String imagepath="";
 
 
                 if(typetest.equalsIgnoreCase("fresh")) {
-                    Intent in1 = new Intent(context, ResultActivity.class);
-                    in1.putExtra("dataobject", jsonObject.toString());
 
-                    startActivity(in1);
+                    callapiforsubmit();
+
                 }
                 else if(typetest.equalsIgnoreCase("retest")) {
 
-                    Intent in1 = new Intent(context, ResultActivity.class);
+                    /*Intent in1 = new Intent(context, ResultActivity.class);
                     in1.putExtra("dataobject","");
-                    startActivity(in1);
+                    startActivity(in1);*/
+
+                    callapiforsubmit();
                 }
                 else if(typetest.equalsIgnoreCase("pending"))
                 {
-                    Intent in1 = new Intent(context, ResultActivity.class);
+                    /*Intent in1 = new Intent(context, ResultActivity.class);
                     in1.putExtra("dataobject","");
-                    startActivity(in1);
+                    startActivity(in1);*/
+
+                    callapiforsubmit();
 
                 }
 
@@ -250,7 +257,64 @@ String imagepath="";
 
         }
     }
-BaseRequest baseRequestFW;
+
+String sObj="";
+    BaseRequest baseRequestsubmit;
+    private void callapiforsubmit() {
+
+        String url="Get_Applicant_list.svc/Get_Result_list/"+Config.RECEIPT_NUMBER;
+
+
+        baseRequestsubmit=new BaseRequest(this);
+
+        baseRequestsubmit.setBaseRequestListner(new RequestReciever() {
+            @Override
+            public void onSuccess(int requestCode, String Json, Object object) {
+
+                JSONArray data=(JSONArray)object;
+
+                Log.e("DATA",data.toString());
+
+                 for(int i=0;i<data.length();i++)
+                 {
+                     try {
+                         JSONObject jsObj=data.getJSONObject(i);
+                         String sType=jsObj.getString("TYPE");
+
+                     if(typeVehical.equalsIgnoreCase(sType))
+                     {
+                         sObj=jsObj.toString();
+                     }
+
+                     } catch (JSONException e) {
+                         e.printStackTrace();
+                     }
+
+                 }
+
+                 Log.e("","sObj= "+sObj);
+                Intent in1 = new Intent(context, ResultActivity.class);
+                in1.putExtra("dataobject", sObj);
+                startActivity(in1);
+
+
+            }
+
+            @Override
+            public void onFailure(int requestCode, String errorCode, String message) {
+
+            }
+
+            @Override
+            public void onNetworkFailure(int requestCode, String message) {
+
+            }
+        });
+
+        baseRequestsubmit.callAPIGET(1,new ArrayMap<String, String>(),url);
+    }
+
+    BaseRequest baseRequestFW;
     private void callApiforFW() {
 
 

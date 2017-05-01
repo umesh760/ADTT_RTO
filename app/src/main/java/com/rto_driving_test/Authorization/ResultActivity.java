@@ -6,20 +6,26 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.ArrayMap;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.JsonObject;
 import com.rto_driving_test.R;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit.BaseRequest;
+import retrofit.RequestReciever;
 import utility.BaseActivity;
 import utility.Config;
 import utility.ErrorLayout;
@@ -54,6 +60,12 @@ public class ResultActivity extends BaseActivity {
     @BindView(R.id.applicant_img)
     ImageView app_pic;
 
+    String drivernumber;
+    String rto_code;
+    String classcode;
+    String classshortname;
+    String testsequence;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,18 +78,26 @@ public class ResultActivity extends BaseActivity {
 
         Intent i=new Intent();
         try {
+            //JSONObject jsonObject=new JSONObject(getIntent().getStringExtra("dataobject"));
             JSONObject jsonObject=new JSONObject(getIntent().getStringExtra("dataobject"));
 
-            applicantName.setText(jsonObject.getString("Applicant_Name"));
-            tv_id.setText(jsonObject.getString("Reference_Number"));
-            status.setText(jsonObject.getString("TEST_TYPE"));
+            Log.e("","obj= "+jsonObject);
 
-            String img=jsonObject.getString("APPLICANT_PIC");
+           drivernumber= jsonObject.optString("DRIVER_NUMBER");
+            rto_code=jsonObject.optString("RTO_CODE");
+            classcode=jsonObject.optString("CLASS_CODE");
+            classshortname=jsonObject.optString("CLASS_SHORT_NAME");
+            testsequence=jsonObject.optString("TEST_SEQUENCE");
 
-            byte[] decodedString = Base64.decode(img, Base64.DEFAULT);
-            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-           // app_pic.setImageBitmap(decodedByte);
-            app_pic.setImageBitmap(Config.APPLICANT_PIC_BASE64);
+          callapi();
+
+//            applicantName.setText(jsonObject.getString("Applicant_Name"));
+//            tv_id.setText(jsonObject.getString("Reference_Number"));
+//            status.setText(jsonObject.getString("TEST_TYPE"));
+//
+//            String img=jsonObject.getString("APPLICANT_PIC");
+
+
 
 
 
@@ -88,6 +108,89 @@ public class ResultActivity extends BaseActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+
+    }
+
+    BaseRequest baseRequest;
+    private void callapi() {
+
+        String url="Get_Applicant_list.svc/Get_Result_Detail"+"/"+drivernumber+"/"+rto_code+"/"+classcode+"/"+classshortname+"/"+testsequence;
+                /*7286497/22/26/LMVTT/1";*/
+
+        baseRequest=new BaseRequest(this);
+
+        baseRequest.setBaseRequestListner(new RequestReciever() {
+            @Override
+            public void onSuccess(int requestCode, String Json, Object object) {
+
+
+                if(object!=null) {
+
+                    JSONArray data = (JSONArray) object;
+
+                    //setdata(data);
+
+
+                    try {
+                        JSONObject jsonObject=data.getJSONObject(0);
+
+                        String pic=jsonObject.optString("APPLICANT_PIC");
+
+                        byte[] decodedString = Base64.decode(pic, Base64.DEFAULT);
+                        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                        // app_pic.setImageBitmap(decodedByte);
+                        app_pic.setImageBitmap(decodedByte);
+
+
+                        applicantName.setText(jsonObject.getString("APPLICANT_NAME"));
+                       // tv_id.setText(jsonObject.getString("Reference_Number"));
+                        status.setText(jsonObject.getString("OVER_ALL_TEST_RESULT"));
+                        type.setText(jsonObject.optString("CLASS_FULL_NAME"));
+                        trackpath.setText(jsonObject.optString("RTO_NAME"));
+                        duration.setText(jsonObject.optString("TIME_TAKEN_FOR_TEST_TW"));
+                        tv_id.setText(Config.REF_NUMBER);
+
+
+
+
+
+
+                        Log.e("PICTURE",pic);
+
+
+
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    Log.e("RESULT DATA", data.toString());
+                }
+
+
+
+            }
+
+            @Override
+            public void onFailure(int requestCode, String errorCode, String message) {
+
+            }
+
+            @Override
+            public void onNetworkFailure(int requestCode, String message) {
+
+            }
+        });
+
+        baseRequest.callAPIGET(1,new ArrayMap<String, String>(),url);
+
+    }
+
+    private void setdata(JSONArray data) {
+
+
 
 
     }

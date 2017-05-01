@@ -75,6 +75,7 @@ public class HomeActivity extends BaseActivity {
 
 
                 startActivity(new Intent(getApplicationContext(),ChangeIPActivity.class));
+                finish();
                 return false;
             }
         });

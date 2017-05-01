@@ -131,7 +131,7 @@
                         <TextView
                             android:layout_width="@dimen/resutl_txt_size"
                             android:layout_height="wrap_content"
-                            android:text="Track Path Traversed"
+                            android:text="Rto Name"
                             android:textSize="14dp"
                             />
                         <TextView

@@ -189,6 +189,7 @@ public class ActAppoimentList extends BaseActivity {
                         Config.RECEIPT_NUMBER=filteredList.get(position).getReceipt_Number();
                         Config.REF_NUMBER=filteredList.get(position).getReference_Number();
                         Config.SOWODO=filteredList.get(position).getSo_Wo_Do();
+                        Config.TESTTYPE=filteredList.get(position).getTEST_TYPE();
                         String imgbyte=filteredList.get(position).getAPPLICANT_PIC().toString();
                         photostatus=filteredList.get(position).getPhoto_Status().toString();
                             byte[] decodedString = Base64.decode(imgbyte, Base64.DEFAULT);
@@ -415,6 +416,7 @@ public void DummyData()
                  Config.RECEIPT_NUMBER=appointmentModels.get(position).getReceipt_Number();
                  Config.REF_NUMBER=appointmentModels.get(position).getReference_Number();
                  Config.SOWODO=appointmentModels.get(position).getSo_Wo_Do();
+                 Config.TESTTYPE=appointmentModels.get(position).getTEST_TYPE();
                  String imgbyte=appointmentModels.get(position).getAPPLICANT_PIC().toString();
                  photostatus=appointmentModels.get(position).getPhoto_Status().toString();
                  byte[] decodedString = Base64.decode(imgbyte, Base64.DEFAULT);
@@ -517,6 +519,8 @@ public void DummyData()
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+
+        finish();
 
     }
 }

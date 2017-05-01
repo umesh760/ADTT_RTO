@@ -103,53 +103,58 @@ String sAppId="";
             @Override
             public void onSuccess(int requestCode, String Json, Object object) {
 
-                JSONArray data=(JSONArray)object;
-
-                try {
-                    JSONObject jsonObject=data.getJSONObject(0);
-
-                    //jsonObject.getString("");
 
 
-                       /*
-       nametxt.setText(Config.APPLICANT_FIRST_NAME+"\t"+Config.APPLICANT_LAST_NAME);
-        idtxt.setText(Config.REF_NUMBER);
-        ap_no_txt.setText(Config.RECEIPT_NUMBER);
-        nm_tv_txt.setText(Config.APPLICANT_FIRST_NAME+"\t"+Config.APPLICANT_LAST_NAME);
-        fath_nm_txt.setText(Config.SOWODO);
-        tv_dob_txt.setText(Config.DOB);
-        tv_dl_txt.setText(Config.LICENCE_NUMBER);
-        tv_dob_txt.setText(Config.DOB);*/
 
 
-                    String img=jsonObject.getString("APPLICANT_PIC");
+                    JSONArray data=(JSONArray)object;
 
-                    byte[] decodedString = Base64.decode(img, Base64.DEFAULT);
-                    Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-                    //app_pic.setImageBitmap(decodedByte);
+                    try {
+                        if(data.length()>0)
+                        {
 
-                    Config.APPLICANT_PIC_BASE64=decodedByte;
-                    Config.REF_NUMBER=jsonObject.getString("Reference_Number");
-                    Config.RECEIPT_NUMBER=jsonObject.getString("Receipt_Number");
-                    Config.APPLICANT_FIRST_NAME=jsonObject.getString("Applicant_Name");
-                    Config.APPLICANT_LAST_NAME=jsonObject.getString("Applicant_Last_Name");
-                    Config.SOWODO=jsonObject.getString("So_Wo_Do");
-                    Config.DOB=jsonObject.getString("Date_Of_Birth");
-                    Config.LICENCE_NUMBER=jsonObject.getString("Licence_Number");
-                    Config.TESTTYPE=jsonObject.optString("TEST_TYPE");
-                    Config.DRIVER_NUMBER= Integer.parseInt(jsonObject.optString("DRIVER_NUMBER"));
-                    Config.RTO_CODE=jsonObject.optString("RTO_CODE");
+                        JSONObject jsonObject=data.getJSONObject(0);
 
-                   // Config.USERDETAILS="RETEST";
-                    Intent in = new Intent(context,ActRetestAppliDetails.class);
-                    in.putExtra("diff","retest");
-                    in.putExtra("activityname","RETEST");
-                    startActivity(in);
+                        //jsonObject.getString("");
 
 
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+
+
+                        String img=jsonObject.getString("APPLICANT_PIC");
+
+                        byte[] decodedString = Base64.decode(img, Base64.DEFAULT);
+                        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                        //app_pic.setImageBitmap(decodedByte);
+
+                        Config.APPLICANT_PIC_BASE64=decodedByte;
+                        Config.REF_NUMBER=jsonObject.getString("Reference_Number");
+                        Config.RECEIPT_NUMBER=jsonObject.getString("Receipt_Number");
+                        Config.APPLICANT_FIRST_NAME=jsonObject.getString("Applicant_Name");
+                        Config.APPLICANT_LAST_NAME=jsonObject.getString("Applicant_Last_Name");
+                        Config.SOWODO=jsonObject.getString("So_Wo_Do");
+                        Config.DOB=jsonObject.getString("Date_Of_Birth");
+                        Config.LICENCE_NUMBER=jsonObject.getString("Licence_Number");
+                        Config.TESTTYPE=jsonObject.optString("TEST_TYPE");
+                        Config.DRIVER_NUMBER= Integer.parseInt(jsonObject.optString("DRIVER_NUMBER"));
+                        Config.RTO_CODE=jsonObject.optString("RTO_CODE");
+
+                        // Config.USERDETAILS="RETEST";
+                        Intent in = new Intent(context,ActRetestAppliDetails.class);
+                        in.putExtra("diff","retest");
+                        in.putExtra("activityname","RETEST");
+                        startActivity(in);
+                        }
+                        else {
+                            Toast.makeText(getApplicationContext(),"Data Not Found",Toast.LENGTH_LONG).show();
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+
+
+
 
             }
 
@@ -167,9 +172,9 @@ String sAppId="";
             }
         });
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+
             baseRequest.callAPIGET(1,new ArrayMap<String, String>(),url);
-        }
+
 
     }
 
