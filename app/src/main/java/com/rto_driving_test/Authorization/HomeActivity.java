@@ -22,6 +22,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import utility.BaseActivity;
+import utility.ConnectionDetector;
 import utility.ErrorLayout;
 
 public class HomeActivity extends BaseActivity {
@@ -156,6 +157,13 @@ public class HomeActivity extends BaseActivity {
         if(TextUtils.isEmpty(sp.getString("ipaddress",""))) {
             Toast.makeText(getApplicationContext(),"Please Set IP Address",Toast.LENGTH_LONG).show();
             return false;
+        }
+
+        else if(!ConnectionDetector.isConnected(getApplicationContext()))
+        {
+            Toast.makeText(getApplicationContext(),"Check Network Connection",Toast.LENGTH_LONG).show();
+            return false;
+
         }
         else {
             return true;

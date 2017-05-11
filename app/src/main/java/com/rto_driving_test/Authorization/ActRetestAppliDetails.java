@@ -339,7 +339,7 @@ public class ActRetestAppliDetails extends MediaPickerActivity {
             @Override
             public void onSuccess(int requestCode, String Json, Object object) {
 
-                Toast.makeText(getApplicationContext(),object.toString(),Toast.LENGTH_LONG).show();
+               // Toast.makeText(getApplicationContext(),object.toString(),Toast.LENGTH_LONG).show();
 
                 if(object!=null) {
 

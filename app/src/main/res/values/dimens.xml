@@ -10,5 +10,6 @@
     <dimen name="center_info_top_margin">10dp</dimen>
     <dimen name="text_view_size">120dp</dimen>
     <dimen name="resutl_txt_size">150dp</dimen>
+    <dimen name="imgsizeresult">200dp</dimen>
 
 </resources>

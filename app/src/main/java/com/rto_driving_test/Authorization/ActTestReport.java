@@ -60,7 +60,7 @@ public class ActTestReport extends BaseActivity {
     @BindView(R.id.tv_start)
     TextView timer;
 
-
+    CountDownTimer countDownTimer;
 
     MultipartBody.Part body;
 
@@ -194,6 +194,8 @@ String imagepath="";
                 if(type_vehical.equalsIgnoreCase("twowheeler"))
                 {
                     callApiforTW();
+
+
                 }
                 else if(type_vehical.equalsIgnoreCase("fourwheeler"))
                 {
@@ -212,34 +214,31 @@ String imagepath="";
                 break;
             case R.id.bt_submit:
 
-                /*Intent in1 = new Intent(context, ResultActivity.class);
-                startActivity(in1);*/
-
-                /*callApi();*/
+                Toast.makeText(getApplicationContext(),"Not Working",Toast.LENGTH_LONG).show();
 
 
-                if(typetest.equalsIgnoreCase("fresh")) {
+               /* if(typetest.equalsIgnoreCase("fresh")) {
 
                     callapiforsubmit();
 
                 }
                 else if(typetest.equalsIgnoreCase("retest")) {
 
-                    /*Intent in1 = new Intent(context, ResultActivity.class);
+                    *//*Intent in1 = new Intent(context, ResultActivity.class);
                     in1.putExtra("dataobject","");
-                    startActivity(in1);*/
+                    startActivity(in1);*//*
 
                     callapiforsubmit();
                 }
                 else if(typetest.equalsIgnoreCase("pending"))
                 {
-                    /*Intent in1 = new Intent(context, ResultActivity.class);
+                    *//*Intent in1 = new Intent(context, ResultActivity.class);
                     in1.putExtra("dataobject","");
-                    startActivity(in1);*/
+                    startActivity(in1);*//*
 
                     callapiforsubmit();
 
-                }
+                }*/
 
 
 
@@ -324,7 +323,7 @@ String sObj="";
             public void onSuccess(int requestCode, String Json, Object object) {
 
 
-
+                countDownTimer.cancel();
                 if(!TextUtils.isEmpty(object.toString()))
                 {
 
@@ -332,9 +331,45 @@ String sObj="";
 
                     try {
                         JSONObject jsonObject=data.getJSONObject(0);
-                        String message=jsonObject.optString("Message");
+                        String messagetype=jsonObject.optString("Message");
 
-                        Toast.makeText(getApplicationContext(),""+message,Toast.LENGTH_LONG).show();
+
+                      //System.out.println("RESULETMESSAGE"+">>>>>>>>>>>>>>>>>>>>>>>"+message);
+
+
+                        if(messagetype.equalsIgnoreCase("No Record Found"))
+                        {
+                            Toast.makeText(getApplicationContext(),""+"Has already given the test",Toast.LENGTH_LONG).show();
+
+                        }
+                        else {
+
+
+
+
+                        if(typetest.equalsIgnoreCase("fresh")) {
+
+                            callapiforsubmit();
+
+                        }
+                        else if(typetest.equalsIgnoreCase("retest")) {
+
+                    /*Intent in1 = new Intent(context, ResultActivity.class);
+                    in1.putExtra("dataobject","");
+                    startActivity(in1);*/
+
+                            callapiforsubmit();
+                        }
+                        else if(typetest.equalsIgnoreCase("pending"))
+                        {
+                    /*Intent in1 = new Intent(context, ResultActivity.class);
+                    in1.putExtra("dataobject","");
+                    startActivity(in1);*/
+
+                            callapiforsubmit();
+
+                        }
+                        }
 
 
                     } catch (JSONException e) {
@@ -349,14 +384,14 @@ String sObj="";
             @Override
             public void onFailure(int requestCode, String errorCode, String message) {
 
-                Toast.makeText(getApplicationContext(),""+message,Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(),""+message,Toast.LENGTH_LONG).show();
 
             }
 
             @Override
             public void onNetworkFailure(int requestCode, String message) {
 
-                Toast.makeText(getApplicationContext(),""+message,Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(),""+message,Toast.LENGTH_LONG).show();
 
             }
         });
@@ -382,6 +417,8 @@ String sObj="";
             @Override
             public void onSuccess(int requestCode, String Json, Object object) {
 
+                countDownTimer.cancel();
+
                 if(!TextUtils.isEmpty(object.toString()))
                 {
 
@@ -389,9 +426,44 @@ String sObj="";
 
                     try {
                         JSONObject jsonObject=data.getJSONObject(0);
-                        String message=jsonObject.optString("Message");
+                        String messagetype=jsonObject.optString("Message");
 
-                        Toast.makeText(getApplicationContext(),""+message,Toast.LENGTH_LONG).show();
+                     //   Toast.makeText(getApplicationContext(),""+message,Toast.LENGTH_LONG).show();
+
+
+                        if(messagetype.equalsIgnoreCase("No Record Found"))
+                        {
+                            Toast.makeText(getApplicationContext(),""+"Has already given the test",Toast.LENGTH_LONG).show();
+
+                        }
+                        else {
+
+
+
+
+                            if(typetest.equalsIgnoreCase("fresh")) {
+
+                                callapiforsubmit();
+
+                            }
+                            else if(typetest.equalsIgnoreCase("retest")) {
+
+                    /*Intent in1 = new Intent(context, ResultActivity.class);
+                    in1.putExtra("dataobject","");
+                    startActivity(in1);*/
+
+                                callapiforsubmit();
+                            }
+                            else if(typetest.equalsIgnoreCase("pending"))
+                            {
+                    /*Intent in1 = new Intent(context, ResultActivity.class);
+                    in1.putExtra("dataobject","");
+                    startActivity(in1);*/
+
+                                callapiforsubmit();
+
+                            }
+                        }
 
 
                     } catch (JSONException e) {
@@ -433,7 +505,7 @@ String sObj="";
 
     private void conddowntimer() {
 
-        new CountDownTimer(120000, 1000) {
+       countDownTimer= new CountDownTimer(120000, 1000) {
 
             public void onTick(long millisUntilFinished) {
 

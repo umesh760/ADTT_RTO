@@ -68,6 +68,8 @@ public class ActAppoimentList extends BaseActivity {
 
     @BindView(R.id.et_search_applicant)
     EditText edTxtSearch;
+    @BindView(R.id.textheader)
+            TextView txtheader;
     DateSelectAdapter dateSelectAdapter;
 
     String photostatus="";

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.ArrayMap;
 import android.util.Base64;
 import android.util.Log;
@@ -59,6 +60,17 @@ public class ResultActivity extends BaseActivity {
     TextView tv_id;
     @BindView(R.id.applicant_img)
     ImageView app_pic;
+    @BindView(R.id.imgroute)
+    ImageView imgRoute;
+
+    @BindView(R.id.imgroute1)
+    ImageView imgRoute1;
+    @BindView(R.id.imgroute2)
+    ImageView imgRoute2;
+    @BindView(R.id.imgroute3)
+    ImageView imgRoute3;
+    @BindView(R.id.imgroute4)
+    ImageView imgRoute4;
 
     String drivernumber;
     String rto_code;
@@ -136,11 +148,19 @@ public class ResultActivity extends BaseActivity {
                         JSONObject jsonObject=data.getJSONObject(0);
 
                         String pic=jsonObject.optString("APPLICANT_PIC");
+                        String routepic=jsonObject.optString("GRAPH_OF_REVERSE_S");
+                        String graphR_S_2=jsonObject.optString("GRAPH_OF_REVERSE_S_2");
+                        String graphofshape8=jsonObject.optString("GRAPH_OF_SHAPE_8");
+                        String graphofshape8_2=jsonObject.optString("GRAPH_OF_SHAPE_8_2");
+                        String GRAPH_OF_SERPENTINE=jsonObject.optString("GRAPH_OF_SERPENTINE");
 
                         byte[] decodedString = Base64.decode(pic, Base64.DEFAULT);
                         Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
                         // app_pic.setImageBitmap(decodedByte);
                         app_pic.setImageBitmap(decodedByte);
+
+
+
 
 
                         applicantName.setText(jsonObject.getString("APPLICANT_NAME"));
@@ -150,6 +170,52 @@ public class ResultActivity extends BaseActivity {
                         trackpath.setText(jsonObject.optString("RTO_NAME"));
                         duration.setText(jsonObject.optString("TIME_TAKEN_FOR_TEST_TW"));
                         tv_id.setText(Config.REF_NUMBER);
+
+                        if(!TextUtils.isEmpty(routepic)){
+                            imgRoute.setVisibility(View.VISIBLE);
+                            imgRoute.setImageBitmap(Base64ToBitmap(routepic));
+                        }
+                        else {
+
+                            imgRoute.setVisibility(View.GONE);
+                        }
+                        if(!TextUtils.isEmpty(graphR_S_2))
+                        {
+                            imgRoute1.setVisibility(View.VISIBLE);
+                            imgRoute1.setImageBitmap(Base64ToBitmap(graphR_S_2));
+                        }
+                        else {
+
+                            imgRoute1.setVisibility(View.GONE);
+
+                        }
+                        if(!TextUtils.isEmpty(graphofshape8))
+                        {
+                            imgRoute2.setVisibility(View.VISIBLE);
+                            imgRoute2.setImageBitmap(Base64ToBitmap(graphofshape8));
+                        }
+                        else {
+                            imgRoute2.setVisibility(View.GONE);
+                        }
+                        if(!TextUtils.isEmpty(graphofshape8_2))
+                        {
+                            imgRoute3.setVisibility(View.VISIBLE);
+                            imgRoute3.setImageBitmap(Base64ToBitmap(graphofshape8_2));
+                        }
+                        else {
+                            imgRoute3.setVisibility(View.GONE);
+                        }
+
+                        if(!TextUtils.isEmpty(GRAPH_OF_SERPENTINE))
+                        {
+                            imgRoute4.setVisibility(View.VISIBLE);
+                            imgRoute4.setImageBitmap(Base64ToBitmap(GRAPH_OF_SERPENTINE));
+                        }
+                        else {
+                            imgRoute4.setVisibility(View.GONE);
+                        }
+
+
 
 
 
@@ -220,6 +286,18 @@ public class ResultActivity extends BaseActivity {
 
 
         }
+    }
+
+    Bitmap Base64ToBitmap(String myImageData)
+    {
+        /*byte[] imageAsBytes = Base64.decode(myImageData.getBytes(),Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.length);*/
+
+
+        byte[] decodedString = Base64.decode(myImageData, Base64.DEFAULT);
+        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+
+        return decodedByte;
     }
 
 
